@@ -1,0 +1,1 @@
+/usr/bin/c++ CMakeFiles/RLogSU.dir/src/logger.cpp.o CMakeFiles/RLogSU.dir/main.cpp.o -o RLogSU 
