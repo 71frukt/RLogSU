@@ -14,9 +14,6 @@ namespace RLSU {
 
 Logger::Logger(const std::string& logfile_name)
 {
-    if constexpr (LOG_ENABLED)
-    {
-
     logfile_.open(log_folder_ + "/" + logfile_name);
 
     if (!logfile_)
@@ -38,8 +35,6 @@ Logger::Logger(const std::string& logfile_name)
              << "\t<style>                                                                                                  \n"
              << RLSU::Appearance::LOGGER_SETTINGS_PREAMBLE << "                                                             \n"
              << "\t</style>                                                                                                 \n";
-    
-    }
 }
 
 

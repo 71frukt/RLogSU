@@ -9,11 +9,6 @@
 
 namespace RLSU {
 
-#ifdef USE_LOGGING 
-    constexpr bool LOG_ENABLED = true;
-#else
-    constexpr bool LOG_ENABLED = false;
-#endif
     
 std::string GetRelativePath(const std::string& abs_path_str);
 
@@ -38,9 +33,6 @@ public:
     template<typename... Args>
     void Log(const char *const file, const int line, const char *const func, LogLevel log_level, const std::string& format, Args&&... args)
     {
-        if constexpr (LOG_ENABLED)
-        {
-
         assert(file);
         assert(func);
 
@@ -48,8 +40,6 @@ public:
         std::string code_place = std::format("{}:{}({})", GetRelativePath(file), line, func);
 
         ColoredLog_(log_level, message, code_place);
-
-        }
     }
 
 
@@ -76,12 +66,14 @@ inline Logger ModuleLogger;
 
 }   // namespace RLSU
 
+
+#ifdef DEBUG_MODE
+
 #define RLSU_INFO(   std_format_, ...)  RLSU::ModuleLogger.Log(__FILE__, __LINE__, __func__, RLSU::Logger::INFO   , std_format_, ##__VA_ARGS__)
 #define RLSU_LOG(    std_format_, ...)  RLSU::ModuleLogger.Log(__FILE__, __LINE__, __func__, RLSU::Logger::LOG    , std_format_, ##__VA_ARGS__)
 #define RLSU_DUMP(   std_format_, ...)  RLSU::ModuleLogger.Log(__FILE__, __LINE__, __func__, RLSU::Logger::DUMP   , std_format_, ##__VA_ARGS__)
 #define RLSU_WARNING(std_format_, ...)  RLSU::ModuleLogger.Log(__FILE__, __LINE__, __func__, RLSU::Logger::WARNING, std_format_, ##__VA_ARGS__)
 #define RLSU_ERROR(  std_format_, ...)  RLSU::ModuleLogger.Log(__FILE__, __LINE__, __func__, RLSU::Logger::ERROR  , std_format_, ##__VA_ARGS__)
-
 
 #define RLSU_ASSERT(condition_, std_format_, ...)                                                               \
 do                                                                                                              \
@@ -93,3 +85,15 @@ do                                                                              
     }                                                                                                           \
 } while(0)
 
+
+#else
+
+#define RLSU_INFO(   std_format_, ...)
+#define RLSU_LOG(    std_format_, ...)
+#define RLSU_DUMP(   std_format_, ...)
+#define RLSU_WARNING(std_format_, ...)
+#define RLSU_ERROR(  std_format_, ...)
+
+#define RLSU_ASSERT(condition_, std_format_, ...)
+
+#endif

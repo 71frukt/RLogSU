@@ -1,4 +1,0 @@
-/home/frukt71/Github/RLogSU/build/CMakeFiles/RLogSU.dir
-/home/frukt71/Github/RLogSU/build/CMakeFiles/run.dir
-/home/frukt71/Github/RLogSU/build/CMakeFiles/edit_cache.dir
-/home/frukt71/Github/RLogSU/build/CMakeFiles/rebuild_cache.dir
