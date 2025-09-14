@@ -28,16 +28,17 @@ target_include_directories(${PROJECT_NAME} PUBLIC
     $<INSTALL_INTERFACE:include>
 )
 
-if(DEBUG_MODE)
-    target_compile_definitions(${PROJECT_NAME} PRIVATE DEBUG_MODE)
-    message(STATUS "DEBUG_MODE ENABLED")
-else()
-    message(STATUS "DEBUG_MODE DISABLED")
-endif()
-
 target_compile_definitions(RLogSU PRIVATE MODULE_NAME="${PROJECT_NAME}")
 
 # add_custom_target(run
 #     COMMAND ${CMAKE_BINARY_DIR}/${PROJECT_NAME}
 #     WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
 # )
+
+
+if(DEBUG_MODE)
+    target_compile_definitions(${PROJECT_NAME} PRIVATE DEBUG_MODE)
+    message(STATUS "${PROJECT_NAME}: DEBUG_MODE ENABLED")
+else()
+    message(STATUS "${PROJECT_NAME}: DEBUG_MODE DISABLED")
+endif()

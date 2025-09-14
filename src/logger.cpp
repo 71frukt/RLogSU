@@ -7,20 +7,30 @@
 #include <filesystem>
 
 
-#include "RLogSU/logger.hpp"
 #include "RLogSU/logger_appearance.hpp"
+#include "RLogSU/logger.hpp"
 
 namespace RLSU {
 
 Logger::Logger(const std::string& logfile_name)
 {
+    // if (ModuleLogger == nullptr) {
+    //     ModuleLogger = this;
+    // }
+    RLSU_ON_DEBUG(
+
+    static bool is_opened = false;
+    
+    if (is_opened) 
+
     logfile_.open(log_folder_ + "/" + logfile_name);
 
     if (!logfile_)
     {
         std::cout << "Faild opening of logfile named '" << (log_folder_ + "/" + logfile_name) << "'" << std::endl;
-        return;
+        
     }
+
 
     logfile_ << "<html>                                                                                                     \n"
              << "\t<head>                                                                                                   \n"
@@ -33,18 +43,34 @@ Logger::Logger(const std::string& logfile_name)
              << "\t</div>                                                                                                   \n"
              << "\t<pre>                                                                                                    \n"
              << "\t<style>                                                                                                  \n"
-             << RLSU::Appearance::LOGGER_SETTINGS_PREAMBLE << "                                                             \n"
+             << RLSU::Appearance::Html::COLORS_HTML_PREAMBLE() << RLSU::Appearance::Html::TABLE_HTML_COLOR()
              << "\t</style>                                                                                                 \n";
+    
+    std::cout << "Opened Logfile" << std::endl;
+    is_opened = true;
+    
+    )
 }
 
 
 Logger::~Logger()
 {
+    RLSU_ON_DEBUG (
+
+    static bool is_closed = false;
+
+    if (is_closed) 
+
     logfile_ << "\t\t</pre> \n"
                 "\t</body>  \n"
                 "</html>";
 
     logfile_.close();
+
+    std::cout << "Closed Logfile" << std::endl;
+    is_closed = true;
+    
+    )
 }
 
 
@@ -53,41 +79,45 @@ void Logger::ColoredLog_(LogLevel log_level, const std::string text, const std::
 {
     using namespace RLSU::Appearance;
 
-    if (log_level != LogLevel::DUMP)
-        std::cout << "[" + module_name_ + "] ";  
-
-    if (log_level != LogLevel::INFO)
-        logfile_  << "[" + module_name_ + "] ";
-
-
     switch (log_level)
     {
     case LogLevel::INFO:
-        std::cout << Console::ColoredStr(Console::CYAN,   "[INFO]    ") << text;
+        RLSU_ON_DEBUG(std::cout << "[" + module_name_ + "] " << Console::ColoredStr(Console::CYAN,  "[INFO]    ") << text << std::endl;)
+        break;
+
+    case LogLevel::MESSAGE:
+                      std::cerr << "[" + module_name_ + "] " << Console::ColoredStr(Console::CYAN, "[MESSAGE] ") << Console::ColoredFormatedCodePlace(code_place) << Console::ColoredStr(Console::CYAN, text) << std::endl;
+        RLSU_ON_DEBUG(logfile_  << "[" + module_name_ + "] " <<    Html::ColoredStr(Html   ::CYAN, "[MESSAGE] ") << Html   ::ColoredFormatedCodePlace(code_place) << Html   ::ColoredStr(Html   ::CYAN, text) << std::endl;)
         break;
 
     case LogLevel::LOG:
-        logfile_  << Html   ::ColoredStr(Html   ::GREEN,  "[LOG]     ") << text;
-        std::cout << Console::ColoredStr(Console::GREEN,  "[LOG]     ") << text;
+        RLSU_ON_DEBUG(std::cout << text;)
+        RLSU_ON_DEBUG(logfile_  << text;)
         break;
 
     case LogLevel::DUMP:
-        logfile_ << Html::ColoredStr(Html::SKYBLUE,       "[DUMP]    ") << Html::ColoredFormatedCodePlace(code_place) << text;
-        break;
+        RLSU_ON_DEBUG(logfile_ << Html::ColoredStr(Html::SKYBLUE,      "[DUMP]    ") << Html::ColoredFormatedCodePlace(code_place) << text;)
+                      break;
+
 
     case LogLevel::WARNING:
-        logfile_  << Html   ::ColoredStr(Html   ::YELLOW, "[WARNING] ") << Html   ::ColoredFormatedCodePlace(code_place) << Html   ::ColoredStr(Html   ::YELLOW, text);
-        std::cerr << Console::ColoredStr(Console::YELLOW, "[WARNING] ") << Console::ColoredFormatedCodePlace(code_place) << Console::ColoredStr(Console::YELLOW, text);
+                      std::cerr << "[" + module_name_ + "] " << Console::ColoredStr(Console::YELLOW, "[WARNING] ") << Console::ColoredFormatedCodePlace(code_place) << Console::ColoredStr(Console::YELLOW, text) << std::endl;
+        RLSU_ON_DEBUG(logfile_  << "[" + module_name_ + "] " <<    Html::ColoredStr(Html   ::YELLOW, "[WARNING] ") << Html   ::ColoredFormatedCodePlace(code_place) << Html   ::ColoredStr(Html   ::YELLOW, text) << std::endl;)
         break;
 
     case LogLevel::ERROR:
-        logfile_  << Html   ::ColoredStr(Html   ::RED,     "[ERROR]   ") << Html   ::ColoredFormatedCodePlace(code_place) << Html   ::ColoredStr(Html   ::RED,   text);
-        std::cerr << Console::ColoredStr(Console::RED,     "[ERROR]   ") << Console::ColoredFormatedCodePlace(code_place) << Console::ColoredStr(Console::RED,   text);
+                      std::cerr << "[" + module_name_ + "] " << Console::ColoredStr(Console::RED,     "[ERROR]   ") << Console::ColoredFormatedCodePlace(code_place) << Console::ColoredStr(Console::RED,   text) << std::endl;
+        RLSU_ON_DEBUG(logfile_  << "[" + module_name_ + "] " <<    Html::ColoredStr(Html   ::RED,     "[ERROR]   ") << Html   ::ColoredFormatedCodePlace(code_place) << Html   ::ColoredStr(Html   ::RED,   text) << std::endl;)
         break;
 
+    case LogLevel::VERIFY:
+                      std::cerr << "[" + module_name_ + "] " << Console::ColoredStr(Console::MAGENTA, "[VERIFY]  ") << Console::ColoredFormatedCodePlace(code_place) << (text.empty() ? "" : (Console::ColoredStr(Console::RED, "failed condition: ") + "'" + Console::ColoredStr(Console::MAGENTA, text) + "'"))  << std::endl;
+        RLSU_ON_DEBUG(logfile_  << "[" + module_name_ + "] " << Html   ::ColoredStr(Html   ::MAGENTA, "[VERIFY]  ") << Html   ::ColoredFormatedCodePlace(code_place) << (text.empty() ? "" : (Html   ::ColoredStr(Html   ::RED, "failed condition: ") + "'" +    Html::ColoredStr(Html   ::MAGENTA, text) + "'"))  << std::endl;)
+    break;
+
     case LogLevel::ASSERT:
-        logfile_  << Html   ::ColoredStr(Html   ::MAGENTA, "[ASSERT]  ") << Html   ::ColoredFormatedCodePlace(code_place) << Html   ::ColoredStr(Html   ::RED, "failed condition: ") << "'" << Html   ::ColoredStr(Html   ::MAGENTA, text) << "'";
-        std::cerr << Console::ColoredStr(Console::MAGENTA, "[ASSERT]  ") << Console::ColoredFormatedCodePlace(code_place) << Console::ColoredStr(Console::RED, "failed condition: ") << "'" << Console::ColoredStr(Console::MAGENTA, text) << "'";
+                      std::cerr << "[" + module_name_ + "] " << Console::ColoredStr(Console::MAGENTA, "[ASSERT]  ") << Console::ColoredFormatedCodePlace(code_place) << (text.empty() ? "" : (Console::ColoredStr(Console::RED, "failed condition: ") + "'" + Console::ColoredStr(Console::MAGENTA, text) + "'"))  << std::endl;
+        RLSU_ON_DEBUG(logfile_  << "[" + module_name_ + "] " << Html   ::ColoredStr(Html   ::MAGENTA, "[ASSERT]  ") << Html   ::ColoredFormatedCodePlace(code_place) << (text.empty() ? "" : (Html   ::ColoredStr(Html   ::RED, "failed condition: ") + "'" +    Html::ColoredStr(Html   ::MAGENTA, text) + "'"))  << std::endl;)
         break;
     
     default:
@@ -95,11 +125,6 @@ void Logger::ColoredLog_(LogLevel log_level, const std::string text, const std::
         break;
     }
 
-    if (log_level != LogLevel::DUMP)
-        std::cout << "\n";  
-
-    if (log_level != LogLevel::INFO)
-        logfile_  << "\n";
 }
 
 
@@ -112,7 +137,6 @@ std::string GetRelativePath(const std::string& abs_path_str)
 
     return relative_path.empty() ? abs_path_str : relative_path.string();
 }
-
 
 
 }   // namespace RLSU

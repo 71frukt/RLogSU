@@ -9,14 +9,15 @@ namespace Console {
 
 using Color = const std::string;
 
-Color BLACK   = "30";
-Color RED     = "31";
-Color GREEN   = "32";
-Color YELLOW  = "33";
-Color BLUE    = "34";
-Color MAGENTA = "35";
-Color CYAN    = "36";
-Color WHITE   = "37";
+Color BLACK      = "30";
+Color RED        = "31";
+Color GREEN      = "32";
+Color YELLOW     = "33";
+Color BLUE       = "34";
+Color MAGENTA    = "35";
+Color CYAN       = "36";
+Color BRIGHTCYAN = "96";
+Color WHITE      = "37";
 
 inline std::string ColoredStr    (const Console::Color color, const std::string& text)  { return "\x1b["  + color + "m" + text + "\x1b[0m"; }
 inline std::string ColoredFormatedCodePlace(const std::string& code_place_str)          { return "[" + ColoredStr(CYAN, code_place_str) + "]  "; }
@@ -38,7 +39,8 @@ Color WHITE   = "white";
 Color MAGENTA = "Fuchsia";
 
 
-const std::string COLORS_HTML_PREAMBLE =                                                                                           
+inline const std::string& COLORS_HTML_PREAMBLE() {
+    static const std::string instance =
     "\tbody { background: linear-gradient(to right, #0f2027, #203a43, #2c5364);}                                         \n"
     "\tpre { color: #ffffff; }                                                                                               \n"
     "\t." + Html::RED     + "{ color:" + Html::RED     + ";}                                                                   \n"
@@ -54,10 +56,12 @@ const std::string COLORS_HTML_PREAMBLE =
     "\t\ttext-shadow: 1px 1px 2px rgba(0,0,0,0.5);                                                                           \n"
     "\t\tborder-radius: 0;                                                                                                     \n"
     "\t\tmargin-bottom: 0;                                                                                                     \n"
-    "\t}                                                                                                                       \n";                     
+    "\t}                                                                                                                       \n";
+    return instance;
+}
 
-
-const std::string TABLE_HTML_COLOR =
+inline const std::string& TABLE_HTML_COLOR() {
+    static const std::string instance =
     "\t.tables-row {                                                                                                           \n"
     "\t    margin-left: 100px;                                                                                                 \n"
     "\t    display: flex;                                                                                                      \n"
@@ -96,13 +100,16 @@ const std::string TABLE_HTML_COLOR =
     "\t    color: #ffffff;                                                                                                   \n"
     "\t}                                                                                                                       \n";
 
+    return instance;
+}
+
 
 inline std::string ColoredStr(const Html::Color color, const std::string& text)  { return "<span class=" + color + ">" + text + "</span>"; }
 inline std::string ColoredFormatedCodePlace(const std::string& code_place_str)   { return "[" + ColoredStr(CYAN, code_place_str) + "]  "; }
 
+
 } // namespace Html
 
-
-const std::string LOGGER_SETTINGS_PREAMBLE = Html::COLORS_HTML_PREAMBLE + Html::TABLE_HTML_COLOR;
+#define RLSU_LOGFILE_FORMAT_ERROR(text)
 
 } 

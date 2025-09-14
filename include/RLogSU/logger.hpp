@@ -5,10 +5,14 @@
 #include <cassert>
 #include <format>
 
-#include "RLogSU/logger_appearance.hpp"
+
+#ifdef DEBUG_MODE
+#define RLSU_ON_DEBUG(code_)  code_
+#else
+#define RLSU_ON_DEBUG(code_)
+#endif
 
 namespace RLSU {
-
     
 std::string GetRelativePath(const std::string& abs_path_str);
 
@@ -16,18 +20,19 @@ std::string GetRelativePath(const std::string& abs_path_str);
 class Logger
 {
 public:
-    
     explicit Logger(const std::string& logfile_name);
     Logger() : Logger("Logfile.html") {} ;
     ~Logger();
 
     enum LogLevel {
-        INFO,       // console
-        LOG,        // console + logfile
-        DUMP,       // logfile
-        WARNING,    // console + logfile
-        ERROR,      // console + logfile
-        ASSERT      // console + logfile
+        INFO,       // console on_debug
+        MESSAGE,    // console always   + logfile on_debug
+        LOG,        // console always   + logfile on_debug
+        DUMP,       //                    logfile on_debug 
+        WARNING,    // console always   + logfile on_debug
+        ERROR,      // console always   + logfile on_debug
+        VERIFY,     // console always   + logfile on_debug
+        ASSERT      // console always   + logfile on_debug
     };
 
     template<typename... Args>
@@ -42,9 +47,8 @@ public:
         ColoredLog_(log_level, message, code_place);
     }
 
-
 private:
-    std::ofstream logfile_;
+    RLSU_ON_DEBUG(std::ofstream logfile_);
     
     #ifdef LOG_DIR
     const std::string log_folder_ = (std::string(LOG_DIR).empty() ? "log" : LOG_DIR)
@@ -61,39 +65,17 @@ private:
     void ColoredLog_(LogLevel log_level, const std::string text, const std::string code_place_str);
 };
 
+RLSU::Logger& GetLogger();
 
-inline Logger ModuleLogger;
+
+static Logger ModuleLogger;
 
 }   // namespace RLSU
 
 
-#ifdef DEBUG_MODE
-
-#define RLSU_INFO(   std_format_, ...)  RLSU::ModuleLogger.Log(__FILE__, __LINE__, __func__, RLSU::Logger::INFO   , std_format_, ##__VA_ARGS__)
-#define RLSU_LOG(    std_format_, ...)  RLSU::ModuleLogger.Log(__FILE__, __LINE__, __func__, RLSU::Logger::LOG    , std_format_, ##__VA_ARGS__)
-#define RLSU_DUMP(   std_format_, ...)  RLSU::ModuleLogger.Log(__FILE__, __LINE__, __func__, RLSU::Logger::DUMP   , std_format_, ##__VA_ARGS__)
-#define RLSU_WARNING(std_format_, ...)  RLSU::ModuleLogger.Log(__FILE__, __LINE__, __func__, RLSU::Logger::WARNING, std_format_, ##__VA_ARGS__)
-#define RLSU_ERROR(  std_format_, ...)  RLSU::ModuleLogger.Log(__FILE__, __LINE__, __func__, RLSU::Logger::ERROR  , std_format_, ##__VA_ARGS__)
-
-#define RLSU_ASSERT(condition_, std_format_, ...)                                                               \
-do                                                                                                              \
-{                                                                                                               \
-    if (!(condition_))                                                                                          \
-    {                                                                                                           \
-        RLSU::ModuleLogger.Log(__FILE__, __LINE__, __func__, RLSU::Logger::ASSERT, std_format_, ##__VA_ARGS__); \
-        abort();                                                                                                \
-    }                                                                                                           \
-} while(0)
-
-
-#else
-
-#define RLSU_INFO(   std_format_, ...)
-#define RLSU_LOG(    std_format_, ...)
-#define RLSU_DUMP(   std_format_, ...)
-#define RLSU_WARNING(std_format_, ...)
-#define RLSU_ERROR(  std_format_, ...)
-
-#define RLSU_ASSERT(condition_, std_format_, ...)
-
-#endif
+#define RLSU_INFO(     std_format_, ...)  RLSU::ModuleLogger.Log(__FILE__, __LINE__, __func__, RLSU::Logger::INFO   , std_format_, ##__VA_ARGS__)
+#define RLSU_MESSAGE(  std_format_, ...)  RLSU::ModuleLogger.Log(__FILE__, __LINE__, __func__, RLSU::Logger::MESSAGE, std_format_, ##__VA_ARGS__)
+#define RLSU_LOG(      std_format_, ...)  RLSU::ModuleLogger.Log(__FILE__, __LINE__, __func__, RLSU::Logger::LOG    , std_format_, ##__VA_ARGS__)
+#define RLSU_DUMP(     std_format_, ...)  RLSU::ModuleLogger.Log(__FILE__, __LINE__, __func__, RLSU::Logger::DUMP   , std_format_, ##__VA_ARGS__)
+#define RLSU_WARNING(  std_format_, ...)  RLSU::ModuleLogger.Log(__FILE__, __LINE__, __func__, RLSU::Logger::WARNING, std_format_, ##__VA_ARGS__)
+#define RLSU_ERROR(    std_format_, ...)  RLSU::ModuleLogger.Log(__FILE__, __LINE__, __func__, RLSU::Logger::ERROR  , std_format_, ##__VA_ARGS__)
