@@ -1,6 +1,5 @@
 #pragma once
 
-#include <iostream>
 #include <string>
 
 namespace RLSU::Appearance {
@@ -14,6 +13,7 @@ Color RED        = "31";
 Color GREEN      = "32";
 Color YELLOW     = "33";
 Color BLUE       = "34";
+Color SKYBLUE    = "159";
 Color MAGENTA    = "35";
 Color CYAN       = "36";
 Color BRIGHTCYAN = "96";

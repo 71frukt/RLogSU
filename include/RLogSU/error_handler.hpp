@@ -1,18 +1,8 @@
 #pragma once
 
-#include <iostream>
-#include <iterator>
-#include <string>
-
-#include "RLogSU/logger.hpp"
+// #include "RLogSU/logger.hpp"
 
 namespace RLSU {
-
-enum class ExitCode
-{
-    SUCCESS,
-    FAIL
-};
 
 // // class Message : public std::string
 // // {

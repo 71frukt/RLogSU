@@ -28,8 +28,6 @@ target_include_directories(${PROJECT_NAME} PUBLIC
     $<INSTALL_INTERFACE:include>
 )
 
-target_compile_definitions(RLogSU PRIVATE MODULE_NAME="${PROJECT_NAME}")
-
 # add_custom_target(run
 #     COMMAND ${CMAKE_BINARY_DIR}/${PROJECT_NAME}
 #     WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}

@@ -4,6 +4,7 @@
 #include <fstream>
 #include <cassert>
 #include <format>
+#include <string>
 
 
 #ifdef DEBUG_MODE
@@ -20,8 +21,7 @@ std::string GetRelativePath(const std::string& abs_path_str);
 class Logger
 {
 public:
-    explicit Logger(const std::string& logfile_name);
-    Logger() : Logger("Logfile.html") {} ;
+    explicit Logger();
     ~Logger();
 
     enum LogLevel {
@@ -47,35 +47,87 @@ public:
         ColoredLog_(log_level, message, code_place);
     }
 
-private:
-    RLSU_ON_DEBUG(std::ofstream logfile_);
-    
-    #ifdef LOG_DIR
-    const std::string log_folder_ = (std::string(LOG_DIR).empty() ? "log" : LOG_DIR)
-    #else
-    const std::string log_folder_ = "log";
-    #endif
+    std::string module_name;
 
-    #ifdef MODULE_NAME
-    const std::string module_name_ = (std::string(MODULE_NAME).empty() ? "some_module" : MODULE_NAME);
-    #else
-    const std::string module_name_ = "some_module";
-    #endif
+    bool module_name_inited = false;
+
+private:
+    RLSU_ON_DEBUG(
+
+    static std::ofstream& GetLogfile_()
+    {
+        static std::ofstream logfile;
+        return logfile;
+    }
+    
+    static bool InitializeLogfile_()
+    {
+        const std::string& logfile_name = "Logfile.html";
+
+        const std::string& log_folder = 
+        #ifdef LOG_DIR
+        (std::string(LOG_DIR).empty() ? "log" : std::string(LOG_DIR));
+        #else
+        "log";
+        #endif
+        
+        GetLogfile_().open(log_folder + "/" + logfile_name);
+
+        return GetLogfile_().is_open();
+    }
+
+    static std::string& GetLogFileName_()
+    {
+        static std::string logfile_name;
+        return logfile_name;
+    }
+
+
+    );
 
     void ColoredLog_(LogLevel log_level, const std::string text, const std::string code_place_str);
 };
 
-RLSU::Logger& GetLogger();
-
-
 static Logger ModuleLogger;
+ 
 
 }   // namespace RLSU
 
 
-#define RLSU_INFO(     std_format_, ...)  RLSU::ModuleLogger.Log(__FILE__, __LINE__, __func__, RLSU::Logger::INFO   , std_format_, ##__VA_ARGS__)
-#define RLSU_MESSAGE(  std_format_, ...)  RLSU::ModuleLogger.Log(__FILE__, __LINE__, __func__, RLSU::Logger::MESSAGE, std_format_, ##__VA_ARGS__)
-#define RLSU_LOG(      std_format_, ...)  RLSU::ModuleLogger.Log(__FILE__, __LINE__, __func__, RLSU::Logger::LOG    , std_format_, ##__VA_ARGS__)
-#define RLSU_DUMP(     std_format_, ...)  RLSU::ModuleLogger.Log(__FILE__, __LINE__, __func__, RLSU::Logger::DUMP   , std_format_, ##__VA_ARGS__)
-#define RLSU_WARNING(  std_format_, ...)  RLSU::ModuleLogger.Log(__FILE__, __LINE__, __func__, RLSU::Logger::WARNING, std_format_, ##__VA_ARGS__)
-#define RLSU_ERROR(    std_format_, ...)  RLSU::ModuleLogger.Log(__FILE__, __LINE__, __func__, RLSU::Logger::ERROR  , std_format_, ##__VA_ARGS__)
+// inline void EnsureModuleNameSet() {
+//     std::cout << "module_name_inited = " << RLSU::ModuleLogger.module_name_inited << std::endl;
+//     std::cout << "&logger = " << &RLSU::ModuleLogger << std::endl;
+//     if (RLSU::ModuleLogger.module_name_inited) return;
+//     RLSU::ModuleLogger.module_name = 
+//         #ifdef MODULE_NAME
+//         MODULE_NAME; std::cout << "setting modn  " << MODULE_NAME << std::endl;
+//         #else
+//         "some_module"; std::cout << "setting modn\n\n";
+//         #endif
+
+//     RLSU::ModuleLogger.module_name_inited = true;
+// }
+
+#ifndef MODULE_NAME
+#define MODULE_NAME  "unknown"
+#endif
+
+#define PZDC                                                                                    \
+    do {                                                                                        \
+    std::cout << "Module: " << __FILE__ << ", &logger = " << &RLSU::ModuleLogger << std::endl;  \
+    if (!RLSU::ModuleLogger.module_name_inited)                                                 \
+    {                                                                                           \
+        RLSU::ModuleLogger.module_name = MODULE_NAME;                                           \
+        RLSU::ModuleLogger.module_name_inited = true;                                           \
+    }                                                                                           \
+    } while(0)                                                                                  \
+
+#define RLSU_INFO(    std_format_, ...) do {PZDC;  RLSU::ModuleLogger.Log(__FILE__, __LINE__, __func__, RLSU::Logger::INFO   , std_format_, ##__VA_ARGS__);} while(0) 
+#define RLSU_MESSAGE( std_format_, ...) do {PZDC;  RLSU::ModuleLogger.Log(__FILE__, __LINE__, __func__, RLSU::Logger::MESSAGE, std_format_, ##__VA_ARGS__);} while(0)
+#define RLSU_LOG(     std_format_, ...) do {PZDC;  RLSU::ModuleLogger.Log(__FILE__, __LINE__, __func__, RLSU::Logger::LOG    , std_format_, ##__VA_ARGS__);} while(0)
+#define RLSU_DUMP(    std_format_, ...) do {PZDC;  RLSU::ModuleLogger.Log(__FILE__, __LINE__, __func__, RLSU::Logger::DUMP   , std_format_, ##__VA_ARGS__);} while(0)
+#define RLSU_WARNING( std_format_, ...) do {PZDC;  RLSU::ModuleLogger.Log(__FILE__, __LINE__, __func__, RLSU::Logger::WARNING, std_format_, ##__VA_ARGS__);} while(0)
+#define RLSU_ERROR(   std_format_, ...) do {PZDC;  RLSU::ModuleLogger.Log(__FILE__, __LINE__, __func__, RLSU::Logger::ERROR  , std_format_, ##__VA_ARGS__);} while(0)
+
+
+#include "RLogSU/error_handler.hpp"
