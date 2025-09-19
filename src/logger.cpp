@@ -15,35 +15,9 @@ namespace RLSU {
 
 Logger::Logger()
 {
-    std::cout  << "LOGGER CTOR, ptr = " << this  << std::endl;
-
-    #ifdef MODULE_NAME
-    std::cerr << MODULE_NAME << std::endl;
-    #endif
-
-    // if (ModuleLogger == nullptr) {
-    //     ModuleLogger = this;
-    // }
     RLSU_ON_DEBUG(
 
-//     static bool is_opened = false;
-//     if (is_opened) return;
-    
-//     const std::string& GetLogFileName_() = "LogFile.html";
-
-//     const std::string& log_folder = 
-//     #ifdef LOG_DIR
-//     (std::string(LOG_DIR).empty() ? "log" : std::string(LOG_DIR));
-//     #else
-//     "log";
-//     #endif
-
-// std::cerr << "WTF1\n\n" << log_folder;
-
-//     GetLogfile_().open(log_folder + "/" + GetLogFileName_());
-// std::cerr << "WTF2\n\n";
-
-    static bool is_opened = false;
+        static bool is_opened = false;
 
     if (is_opened) return;
 

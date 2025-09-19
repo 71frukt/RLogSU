@@ -114,7 +114,6 @@ static Logger ModuleLogger;
 
 #define PZDC                                                                                    \
     do {                                                                                        \
-    std::cout << "Module: " << __FILE__ << ", &logger = " << &RLSU::ModuleLogger << std::endl;  \
     if (!RLSU::ModuleLogger.module_name_inited)                                                 \
     {                                                                                           \
         RLSU::ModuleLogger.module_name = MODULE_NAME;                                           \
