@@ -94,20 +94,6 @@ static Logger ModuleLogger;
 }   // namespace RLSU
 
 
-// inline void EnsureModuleNameSet() {
-//     std::cout << "module_name_inited = " << RLSU::ModuleLogger.module_name_inited << std::endl;
-//     std::cout << "&logger = " << &RLSU::ModuleLogger << std::endl;
-//     if (RLSU::ModuleLogger.module_name_inited) return;
-//     RLSU::ModuleLogger.module_name = 
-//         #ifdef MODULE_NAME
-//         MODULE_NAME; std::cout << "setting modn  " << MODULE_NAME << std::endl;
-//         #else
-//         "some_module"; std::cout << "setting modn\n\n";
-//         #endif
-
-//     RLSU::ModuleLogger.module_name_inited = true;
-// }
-
 #ifndef MODULE_NAME
 #define MODULE_NAME  "unknown"
 #endif
