@@ -3,15 +3,15 @@
 namespace RLSU {
 
 // ... = exit_val returning if func fails
-#define ERROR_HANDLE(_CallFunc)                                                     \
-    [&]() -> decltype(auto) {                                                       \
-        try {                                                                       \
-            return (_CallFunc);                                                     \
-        }                                                                           \
-        catch (const std::runtime_error& _e) {                                      \
-            RLSU_ERROR("Call failed: '{}'  what(): {}", #_CallFunc, _e.what());     \
-            throw;                                                                  \
-        }                                                                           \
+#define ERROR_HANDLE(_CallFunc)                                                                                                 \
+    [&]() -> decltype(auto) {                                                                                                   \
+        try {                                                                                                                   \
+            return (_CallFunc);                                                                                                 \
+        }                                                                                                                       \
+        catch (const std::runtime_error& _e) {                                                                                  \
+            RLSU_ERROR("Call failed: '{}'  what(): {}", #_CallFunc, _e.what());                                                 \
+            throw;                                                                                                              \
+        }                                                                                                                       \
     }()
 
 // ... = exit_val that compares the return value of the function

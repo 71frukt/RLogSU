@@ -3,7 +3,7 @@
 #include <iostream>
 #include <fstream>
 #include <cassert>
-#include <format>
+#include <fmt/core.h>
 #include <string>
 
 
@@ -41,8 +41,8 @@ public:
         assert(file);
         assert(func);
 
-        std::string message    = std::vformat(std::string_view(format), std::make_format_args(args...));
-        std::string code_place = std::format("{}:{}({})", GetRelativePath(file), line, func);
+        std::string message = fmt::vformat(std::string_view(format), fmt::make_format_args(args...));
+        std::string code_place = fmt::format("{}:{}({})", GetRelativePath(file), line, func);
 
         ColoredLog_(log_level, message, code_place);
     }
