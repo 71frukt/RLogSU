@@ -42,7 +42,7 @@ public:
         assert(file);
         assert(func);
 
-        std::string message = fmt::vformat(std::string_view(format), fmt::make_format_args(args...));
+        std::string message    = fmt::vformat(format, fmt::make_format_args(std::forward<Args>(args)...));
         std::string code_place = fmt::format("{}:{}({})", GetRelativePath(file), line, func);
 
         ColoredLog_(log_level, message, code_place);
@@ -57,7 +57,7 @@ public:
     {
         std::string tab = "";
         for (size_t i = 0; i < base_tabs_num; i++)
-            tab += "\t";
+            tab += "  ";
 
         return tab;
     }
