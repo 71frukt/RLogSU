@@ -1,5 +1,6 @@
 #pragma once
 
+#include <cstddef>
 #include <iostream>
 #include <fstream>
 #include <cassert>
@@ -50,6 +51,16 @@ public:
     std::string module_name;
 
     bool module_name_inited = false;
+
+    size_t base_tabs_num = 0;
+    std::string BaseTabsStr()
+    {
+        std::string tab = "";
+        for (size_t i = 0; i < base_tabs_num; i++)
+            tab += "\t";
+
+        return tab;
+    }
 
 private:
     RLSU_ON_DEBUG(
@@ -114,5 +125,8 @@ static Logger ModuleLogger;
 #define RLSU_WARNING( std_format_, ...) do {PZDC;  RLSU::ModuleLogger.Log(__FILE__, __LINE__, __func__, RLSU::Logger::WARNING, std_format_, ##__VA_ARGS__);} while(0)
 #define RLSU_ERROR(   std_format_, ...) do {PZDC;  RLSU::ModuleLogger.Log(__FILE__, __LINE__, __func__, RLSU::Logger::ERROR  , std_format_, ##__VA_ARGS__);} while(0)
 
+
+#define RLSU_BASETAB_INCREACE RLSU::ModuleLogger.base_tabs_num++
+#define RLSU_BASETAB_DECREACE RLSU::ModuleLogger.base_tabs_num--
 
 #include "RLogSU/error_handler.hpp"

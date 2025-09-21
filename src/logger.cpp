@@ -77,42 +77,42 @@ void Logger::ColoredLog_(LogLevel log_level, const std::string text, const std::
     switch (log_level)
     {
     case LogLevel::INFO:
-        RLSU_ON_DEBUG(std::cout << "[" + module_name + "] " << Console::ColoredStr(Console::CYAN,  "[INFO]    ") << text << std::endl;)
+        RLSU_ON_DEBUG(std::cout      << BaseTabsStr() << "[" + module_name + "] " << Console::ColoredStr(Console::CYAN,  "[INFO]    ") << text << std::endl;)
         break;
 
     case LogLevel::MESSAGE:
-                      std::cerr      << "[" + module_name + "] " << Console::ColoredStr(Console::CYAN, "[MESSAGE] ") << Console::ColoredFormatedCodePlace(code_place) << Console::ColoredStr(Console::CYAN, text) << std::endl;
-        RLSU_ON_DEBUG(GetLogfile_()  << "[" + module_name + "] " <<    Html::ColoredStr(Html   ::CYAN, "[MESSAGE] ") << Html   ::ColoredFormatedCodePlace(code_place) << Html   ::ColoredStr(Html   ::CYAN, text) << std::endl;)
+                      std::cerr      << BaseTabsStr() << "[" + module_name + "] " << Console::ColoredStr(Console::CYAN,  "[MESSAGE] ") << Console::ColoredFormatedCodePlace(code_place) << Console::ColoredStr(Console::CYAN, text) << std::endl;
+        RLSU_ON_DEBUG(GetLogfile_()  << BaseTabsStr() << "[" + module_name + "] " <<    Html::ColoredStr(Html   ::CYAN,  "[MESSAGE] ") << Html   ::ColoredFormatedCodePlace(code_place) << Html   ::ColoredStr(Html   ::CYAN, text) << std::endl;)
         break;
 
     case LogLevel::LOG:
-        RLSU_ON_DEBUG(std::cout      << text;)
-        RLSU_ON_DEBUG(GetLogfile_()  << text;)
+        RLSU_ON_DEBUG(std::cout      << BaseTabsStr() << text;)
+        RLSU_ON_DEBUG(GetLogfile_()  << BaseTabsStr() << text;)
         break;
 
     case LogLevel::DUMP:
-        RLSU_ON_DEBUG(std::cout      << "[" + module_name + "] " << Console::ColoredStr(Console::SKYBLUE,      "[DUMP]    ") << Console::ColoredFormatedCodePlace(code_place) << text;)
-        RLSU_ON_DEBUG(GetLogfile_()  << "[" + module_name + "] " << Html   ::ColoredStr(Html   ::SKYBLUE,      "[DUMP]    ") << Html   ::ColoredFormatedCodePlace(code_place) << text;)
+        RLSU_ON_DEBUG(std::cout      << BaseTabsStr() << "[" + module_name + "] " << Console::ColoredStr(Console::SKYBLUE, "[DUMP]    ") << Console::ColoredFormatedCodePlace(code_place) << text;)
+        RLSU_ON_DEBUG(GetLogfile_()  << BaseTabsStr() << "[" + module_name + "] " << Html   ::ColoredStr(Html   ::SKYBLUE, "[DUMP]    ") << Html   ::ColoredFormatedCodePlace(code_place) << text;)
         break;
 
     case LogLevel::WARNING:
-                      std::cerr      << "[" + module_name + "] " << Console::ColoredStr(Console::YELLOW, "[WARNING] ") << Console::ColoredFormatedCodePlace(code_place) << Console::ColoredStr(Console::YELLOW, text) << std::endl;
-        RLSU_ON_DEBUG(GetLogfile_()  << "[" + module_name + "] " <<    Html::ColoredStr(Html   ::YELLOW, "[WARNING] ") << Html   ::ColoredFormatedCodePlace(code_place) << Html   ::ColoredStr(Html   ::YELLOW, text) << std::endl;)
+                      std::cerr      << BaseTabsStr() << "[" + module_name + "] " << Console::ColoredStr(Console::YELLOW,  "[WARNING] ") << Console::ColoredFormatedCodePlace(code_place) << Console::ColoredStr(Console::YELLOW, text) << std::endl;
+        RLSU_ON_DEBUG(GetLogfile_()  << BaseTabsStr() << "[" + module_name + "] " <<    Html::ColoredStr(Html   ::YELLOW,  "[WARNING] ") << Html   ::ColoredFormatedCodePlace(code_place) << Html   ::ColoredStr(Html   ::YELLOW, text) << std::endl;)
         break;
 
     case LogLevel::ERROR:
-                      std::cerr      << "[" + module_name + "] " << Console::ColoredStr(Console::RED,     "[ERROR]   ") << Console::ColoredFormatedCodePlace(code_place) << Console::ColoredStr(Console::RED,   text) << std::endl;
-        RLSU_ON_DEBUG(GetLogfile_()  << "[" + module_name + "] " <<    Html::ColoredStr(Html   ::RED,     "[ERROR]   ") << Html   ::ColoredFormatedCodePlace(code_place) << Html   ::ColoredStr(Html   ::RED,   text) << std::endl;)
+                      std::cerr      << BaseTabsStr() << "[" + module_name + "] " << Console::ColoredStr(Console::RED,     "[ERROR]   ") << Console::ColoredFormatedCodePlace(code_place) << Console::ColoredStr(Console::RED,   text) << std::endl;
+        RLSU_ON_DEBUG(GetLogfile_()  << BaseTabsStr() << "[" + module_name + "] " <<    Html::ColoredStr(Html   ::RED,     "[ERROR]   ") << Html   ::ColoredFormatedCodePlace(code_place) << Html   ::ColoredStr(Html   ::RED,   text) << std::endl;)
         break;
 
     case LogLevel::VERIFY:
-                      std::cerr      << "[" + module_name + "] " << Console::ColoredStr(Console::MAGENTA, "[VERIFY]  ") << Console::ColoredFormatedCodePlace(code_place) << (text.empty() ? "" : (Console::ColoredStr(Console::RED, "failed condition: ") + "'" + Console::ColoredStr(Console::MAGENTA, text) + "'"))  << std::endl;
-        RLSU_ON_DEBUG(GetLogfile_()  << "[" + module_name + "] " << Html   ::ColoredStr(Html   ::MAGENTA, "[VERIFY]  ") << Html   ::ColoredFormatedCodePlace(code_place) << (text.empty() ? "" : (Html   ::ColoredStr(Html   ::RED, "failed condition: ") + "'" +    Html::ColoredStr(Html   ::MAGENTA, text) + "'"))  << std::endl;)
+                      std::cerr      << BaseTabsStr() << "[" + module_name + "] " << Console::ColoredStr(Console::MAGENTA, "[VERIFY]  ") << Console::ColoredFormatedCodePlace(code_place) << (text.empty() ? "" : (Console::ColoredStr(Console::RED, "failed condition: ") + "'" + Console::ColoredStr(Console::MAGENTA, text) + "'"))  << std::endl;
+        RLSU_ON_DEBUG(GetLogfile_()  << BaseTabsStr() << "[" + module_name + "] " << Html   ::ColoredStr(Html   ::MAGENTA, "[VERIFY]  ") << Html   ::ColoredFormatedCodePlace(code_place) << (text.empty() ? "" : (Html   ::ColoredStr(Html   ::RED, "failed condition: ") + "'" +    Html::ColoredStr(Html   ::MAGENTA, text) + "'"))  << std::endl;)
     break;
 
     case LogLevel::ASSERT:
-                      std::cerr      << "[" + module_name + "] " << Console::ColoredStr(Console::MAGENTA, "[ASSERT]  ") << Console::ColoredFormatedCodePlace(code_place) << (text.empty() ? "" : (Console::ColoredStr(Console::RED, "failed condition: ") + "'" + Console::ColoredStr(Console::MAGENTA, text) + "'"))  << std::endl;
-        RLSU_ON_DEBUG(GetLogfile_()  << "[" + module_name + "] " << Html   ::ColoredStr(Html   ::MAGENTA, "[ASSERT]  ") << Html   ::ColoredFormatedCodePlace(code_place) << (text.empty() ? "" : (Html   ::ColoredStr(Html   ::RED, "failed condition: ") + "'" +    Html::ColoredStr(Html   ::MAGENTA, text) + "'"))  << std::endl;)
+                      std::cerr      << BaseTabsStr() << "[" + module_name + "] " << Console::ColoredStr(Console::MAGENTA, "[ASSERT]  ") << Console::ColoredFormatedCodePlace(code_place) << (text.empty() ? "" : (Console::ColoredStr(Console::RED, "failed condition: ") + "'" + Console::ColoredStr(Console::MAGENTA, text) + "'"))  << std::endl;
+        RLSU_ON_DEBUG(GetLogfile_()  << BaseTabsStr() << "[" + module_name + "] " << Html   ::ColoredStr(Html   ::MAGENTA, "[ASSERT]  ") << Html   ::ColoredFormatedCodePlace(code_place) << (text.empty() ? "" : (Html   ::ColoredStr(Html   ::RED, "failed condition: ") + "'" +    Html::ColoredStr(Html   ::MAGENTA, text) + "'"))  << std::endl;)
         break;
     
     default:
