@@ -71,10 +71,10 @@ private:
         return logfile;
     }
     
+    static constexpr std::string logfile_name_ = "Logfile.html";
+
     static bool InitializeLogfile_()
     {
-        const std::string& logfile_name = "Logfile.html";
-
         const std::string& log_folder = 
         #ifdef LOG_DIR
         (std::string(LOG_DIR).empty() ? "log" : std::string(LOG_DIR));
@@ -82,17 +82,10 @@ private:
         "log";
         #endif
         
-        GetLogfile_().open(log_folder + "/" + logfile_name);
+        GetLogfile_().open(log_folder + "/" + logfile_name_);
 
         return GetLogfile_().is_open();
     }
-
-    static std::string& GetLogFileName_()
-    {
-        static std::string logfile_name;
-        return logfile_name;
-    }
-
 
     );
 
