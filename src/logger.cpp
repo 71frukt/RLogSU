@@ -27,14 +27,14 @@ Logger::Logger()
         std::cout << "Faild opening of logfile";
 
 
-    GetLogfile_() << "<html>                                                                                                     \n"
+    GetLogfile_() << "<html>                                                                                               \n"
             << "\t<head>                                                                                                   \n"
-            << "\t<title>" << logfile_name_ << "</title>                                                                    \n"
+            << "\t<title>" << logfile_name_ << "</title>                                                                   \n"
             << "\t<link rel=\"stylesheet\" href=\"https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css\"> \n"
             << "\t</head>                                                                                                  \n"
             << "\t<body>                                                                                                   \n"
             << "\t<div class=\"jumbotron text-center\">                                                                    \n"
-            << "\t\t<h1>" << logfile_name_ << "</h1>                                                                        \n"
+            << "\t\t<h1>" << logfile_name_ << "</h1>                                                                       \n"
             << "\t</div>                                                                                                   \n"
             << "\t<pre>                                                                                                    \n"
             << "\t<style>                                                                                                  \n"
