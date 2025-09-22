@@ -78,11 +78,12 @@ void Logger::ColoredLog_(LogLevel log_level, const std::string text, const std::
     {
     case LogLevel::INFO:
         RLSU_ON_DEBUG(std::cout      << BaseTabsStr() << "[" + module_name + "] " << Console::ColoredStr(Console::CYAN,  "[INFO]    ") << text << std::endl;)
+        RLSU_ON_DEBUG(GetLogfile_()  << BaseTabsStr() << "[" + module_name + "] " << Html   ::ColoredStr(Html   ::CYAN,  "[INFO]    ") << text << std::endl;)
         break;
 
     case LogLevel::MESSAGE:
                       std::cerr      << BaseTabsStr() << "[" + module_name + "] " << Console::ColoredStr(Console::CYAN,  "[MESSAGE] ") << Console::ColoredFormatedCodePlace(code_place) << Console::ColoredStr(Console::CYAN, text) << std::endl;
-        RLSU_ON_DEBUG(GetLogfile_()  << BaseTabsStr() << "[" + module_name + "] " <<    Html::ColoredStr(Html   ::CYAN,  "[MESSAGE] ") << Html   ::ColoredFormatedCodePlace(code_place) << Html   ::ColoredStr(Html   ::CYAN, text) << std::endl;)
+        RLSU_ON_DEBUG(GetLogfile_()  << BaseTabsStr() << "[" + module_name + "] " << Html   ::ColoredStr(Html   ::CYAN,  "[MESSAGE] ") << Html   ::ColoredFormatedCodePlace(code_place) << Html   ::ColoredStr(Html   ::CYAN, text) << std::endl;)
         break;
 
     case LogLevel::LOG:
@@ -97,12 +98,12 @@ void Logger::ColoredLog_(LogLevel log_level, const std::string text, const std::
 
     case LogLevel::WARNING:
                       std::cerr      << BaseTabsStr() << "[" + module_name + "] " << Console::ColoredStr(Console::YELLOW,  "[WARNING] ") << Console::ColoredFormatedCodePlace(code_place) << Console::ColoredStr(Console::YELLOW, text) << std::endl;
-        RLSU_ON_DEBUG(GetLogfile_()  << BaseTabsStr() << "[" + module_name + "] " <<    Html::ColoredStr(Html   ::YELLOW,  "[WARNING] ") << Html   ::ColoredFormatedCodePlace(code_place) << Html   ::ColoredStr(Html   ::YELLOW, text) << std::endl;)
+        RLSU_ON_DEBUG(GetLogfile_()  << BaseTabsStr() << "[" + module_name + "] " << Html   ::ColoredStr(Html   ::YELLOW,  "[WARNING] ") << Html   ::ColoredFormatedCodePlace(code_place) << Html   ::ColoredStr(Html   ::YELLOW, text) << std::endl;)
         break;
 
     case LogLevel::ERROR:
                       std::cerr      << BaseTabsStr() << "[" + module_name + "] " << Console::ColoredStr(Console::RED,     "[ERROR]   ") << Console::ColoredFormatedCodePlace(code_place) << Console::ColoredStr(Console::RED,   text) << std::endl;
-        RLSU_ON_DEBUG(GetLogfile_()  << BaseTabsStr() << "[" + module_name + "] " <<    Html::ColoredStr(Html   ::RED,     "[ERROR]   ") << Html   ::ColoredFormatedCodePlace(code_place) << Html   ::ColoredStr(Html   ::RED,   text) << std::endl;)
+        RLSU_ON_DEBUG(GetLogfile_()  << BaseTabsStr() << "[" + module_name + "] " << Html   ::ColoredStr(Html   ::RED,     "[ERROR]   ") << Html   ::ColoredFormatedCodePlace(code_place) << Html   ::ColoredStr(Html   ::RED,   text) << std::endl;)
         break;
 
     case LogLevel::VERIFY:

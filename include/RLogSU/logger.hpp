@@ -29,7 +29,7 @@ public:
         INFO,       // console on_debug
         MESSAGE,    // console always   + logfile on_debug
         LOG,        // console always   + logfile on_debug
-        DUMP,       //                    logfile on_debug 
+        DUMP,       // console on_debug + logfile on_debug 
         WARNING,    // console always   + logfile on_debug
         ERROR,      // console always   + logfile on_debug
         VERIFY,     // console always   + logfile on_debug
@@ -114,7 +114,6 @@ static Logger ModuleLogger;
 #define RLSU_INFO(    std_format_, ...) do {PZDC;  RLSU::ModuleLogger.Log(__FILE__, __LINE__, __func__, RLSU::Logger::INFO   , std_format_, ##__VA_ARGS__);} while(0) 
 #define RLSU_MESSAGE( std_format_, ...) do {PZDC;  RLSU::ModuleLogger.Log(__FILE__, __LINE__, __func__, RLSU::Logger::MESSAGE, std_format_, ##__VA_ARGS__);} while(0)
 #define RLSU_LOG(     std_format_, ...) do {PZDC;  RLSU::ModuleLogger.Log(__FILE__, __LINE__, __func__, RLSU::Logger::LOG    , std_format_, ##__VA_ARGS__);} while(0)
-#define RLSU_DUMP(    std_format_, ...) do {PZDC;  RLSU::ModuleLogger.Log(__FILE__, __LINE__, __func__, RLSU::Logger::DUMP   , std_format_, ##__VA_ARGS__);} while(0)
 #define RLSU_WARNING( std_format_, ...) do {PZDC;  RLSU::ModuleLogger.Log(__FILE__, __LINE__, __func__, RLSU::Logger::WARNING, std_format_, ##__VA_ARGS__);} while(0)
 #define RLSU_ERROR(   std_format_, ...) do {PZDC;  RLSU::ModuleLogger.Log(__FILE__, __LINE__, __func__, RLSU::Logger::ERROR  , std_format_, ##__VA_ARGS__);} while(0)
 
