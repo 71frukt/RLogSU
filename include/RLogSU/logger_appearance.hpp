@@ -112,4 +112,4 @@ inline std::string ColoredFormatedCodePlace(const std::string& code_place_str)  
 
 #define RLSU_LOGFILE_FORMAT_ERROR(text)
 
-} 
+} // namespace RLSU::Appearance
