@@ -13,6 +13,9 @@
 namespace RLSU {
 
 
+size_t Logger::BaseTabsNum = 0;
+
+
 Logger::Logger()
 {
     RLSU_ON_DEBUG(
@@ -24,7 +27,7 @@ Logger::Logger()
     InitializeLogfile_();
 
     if (!GetLogfile_())
-        std::cout << "Faild opening of logfile";
+        std::cerr << "Faild opening of logfile";
 
 
     GetLogfile_() << "<html>                                                                                                     \n"
@@ -41,7 +44,7 @@ Logger::Logger()
             << RLSU::Appearance::Html::COLORS_HTML_PREAMBLE() << RLSU::Appearance::Html::TABLE_HTML_COLOR()
             << "\t</style>                                                                                                 \n";
     
-    std::cout << "Opened Logfile" << std::endl;
+    std::cerr << "Opened Logfile" << std::endl;
 
     is_opened = true;
     )
@@ -62,7 +65,7 @@ Logger::~Logger()
 
     GetLogfile_().close();
 
-    std::cout << "Closed Logfile" << std::endl;
+    std::cerr << "Closed Logfile" << std::endl;
     is_closed = true;
     
     )
@@ -77,7 +80,7 @@ void Logger::ColoredLog_(LogLevel log_level, const std::string text, const std::
     switch (log_level)
     {
     case LogLevel::INFO:
-        RLSU_ON_DEBUG(std::cout      << BaseTabsStr() << "[" + module_name + "] " << Console::ColoredStr(Console::CYAN,  "[INFO]    ") << text << std::endl;)
+        RLSU_ON_DEBUG(std::cerr      << BaseTabsStr() << "[" + module_name + "] " << Console::ColoredStr(Console::CYAN,  "[INFO]    ") << text << std::endl;)
         RLSU_ON_DEBUG(GetLogfile_()  << BaseTabsStr() << "[" + module_name + "] " << Html   ::ColoredStr(Html   ::CYAN,  "[INFO]    ") << text << std::endl;)
         break;
 
@@ -87,12 +90,12 @@ void Logger::ColoredLog_(LogLevel log_level, const std::string text, const std::
         break;
 
     case LogLevel::LOG:
-        RLSU_ON_DEBUG(std::cout      << BaseTabsStr() << text;)
+        RLSU_ON_DEBUG(std::cerr      << BaseTabsStr() << text;)
         RLSU_ON_DEBUG(GetLogfile_()  << BaseTabsStr() << text;)
         break;
 
     case LogLevel::DUMP:
-        RLSU_ON_DEBUG(std::cout      << BaseTabsStr() << "[" + module_name + "] " << Console::ColoredStr(Console::SKYBLUE, "[DUMP]    ") << Console::ColoredFormatedCodePlace(code_place) << text;)
+        RLSU_ON_DEBUG(std::cerr      << BaseTabsStr() << "[" + module_name + "] " << Console::ColoredStr(Console::SKYBLUE, "[DUMP]    ") << Console::ColoredFormatedCodePlace(code_place) << text;)
         RLSU_ON_DEBUG(GetLogfile_()  << BaseTabsStr() << "[" + module_name + "] " << Html   ::ColoredStr(Html   ::SKYBLUE, "[DUMP]    ") << Html   ::ColoredFormatedCodePlace(code_place) << text;)
         break;
 
@@ -117,7 +120,7 @@ void Logger::ColoredLog_(LogLevel log_level, const std::string text, const std::
         break;
     
     default:
-        std::cout << "Unknown Log level!\n";
+        std::cerr << "Unknown Log level!\n";
         break;
     }
 

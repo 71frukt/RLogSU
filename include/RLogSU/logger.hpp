@@ -52,11 +52,12 @@ public:
 
     bool module_name_inited = false;
 
-    size_t base_tabs_num = 0;
+    static size_t BaseTabsNum;
+
     std::string BaseTabsStr()
     {
         std::string tab = "";
-        for (size_t i = 0; i < base_tabs_num; i++)
+        for (size_t i = 0; i < BaseTabsNum; i++)
             tab += "  ";
 
         return tab;
@@ -93,7 +94,7 @@ private:
 };
 
 static Logger ModuleLogger;
- 
+
 
 }   // namespace RLSU
 
@@ -118,7 +119,7 @@ static Logger ModuleLogger;
 #define RLSU_ERROR(   std_format_, ...) do {PZDC;  RLSU::ModuleLogger.Log(__FILE__, __LINE__, __func__, RLSU::Logger::ERROR  , std_format_, ##__VA_ARGS__);} while(0)
 
 
-#define RLSU_BASETAB_INCREACE RLSU::ModuleLogger.base_tabs_num++
-#define RLSU_BASETAB_DECREACE RLSU::ModuleLogger.base_tabs_num--
+#define RLSU_BASETAB_INCREACE RLSU::ModuleLogger.BaseTabsNum++
+#define RLSU_BASETAB_DECREACE RLSU::ModuleLogger.BaseTabsNum--
 
 #include "RLogSU/error_handler.hpp"
