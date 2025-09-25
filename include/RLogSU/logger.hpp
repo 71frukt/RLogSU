@@ -58,7 +58,7 @@ public:
     {
         std::string tab = "";
         for (size_t i = 0; i < BaseTabsNum; i++)
-            tab += "  ";
+            tab += "    ";
 
         return tab;
     }
