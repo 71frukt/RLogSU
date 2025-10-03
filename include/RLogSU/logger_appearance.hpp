@@ -2,7 +2,9 @@
 
 #include <string>
 
-namespace RLSU::Appearance {
+namespace RLSU::Log::Detail {
+
+namespace Appearance {
     
 namespace Console {
 
@@ -112,4 +114,7 @@ inline std::string ColoredFormatedCodePlace(const std::string& code_place_str)  
 
 #define RLSU_LOGFILE_FORMAT_ERROR(text)
 
-} 
+} // namespace Appearance
+
+
+}   // namespace RLSU::Detail

@@ -10,10 +10,8 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 #--- GET LOG DIR --------------------------------------------------------
 if(NOT DEFINED LOG_DIR)
     set(LOG_DIR ${CMAKE_CURRENT_SOURCE_DIR}/log)
-    message(STATUS "Using and creating default LOG_DIR: ${LOG_DIR}")
     file(MAKE_DIRECTORY ${LOG_DIR})
 else()
-    message(STATUS "Using LOG_DIR from parent: ${LOG_DIR}")
 endif()
 #------------------------------------------------------------------------
 
@@ -22,6 +20,7 @@ find_package(fmt REQUIRED)
 
 add_library(${PROJECT_NAME} STATIC
     src/logger.cpp
+    src/graph.cpp
     # main.cpp/
 )
 

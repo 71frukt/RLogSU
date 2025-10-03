@@ -10,7 +10,7 @@
 #include "RLogSU/logger_appearance.hpp"
 #include "RLogSU/logger.hpp"
 
-namespace RLSU {
+namespace RLSU::Log {
 
 
 size_t Logger::BaseTabsNum = 0;
@@ -41,7 +41,7 @@ Logger::Logger()
             << "\t</div>                                                                                                   \n"
             << "\t<pre>                                                                                                    \n"
             << "\t<style>                                                                                                  \n"
-            << RLSU::Appearance::Html::COLORS_HTML_PREAMBLE() << RLSU::Appearance::Html::TABLE_HTML_COLOR()
+            << Detail::Appearance::Html::COLORS_HTML_PREAMBLE() << Detail::Appearance::Html::TABLE_HTML_COLOR()
             << "\t</style>                                                                                                 \n";
     
     std::cerr << "Opened Logfile" << std::endl;
@@ -75,7 +75,7 @@ Logger::~Logger()
 
 void Logger::ColoredLog_(LogLevel log_level, const std::string text, const std::string code_place)
 {
-    using namespace RLSU::Appearance;
+    using namespace Detail::Appearance;
 
     switch (log_level)
     {
@@ -90,7 +90,6 @@ void Logger::ColoredLog_(LogLevel log_level, const std::string text, const std::
         break;
 
     case LogLevel::LOG:
-        RLSU_ON_DEBUG(std::cerr      << BaseTabsStr() << text;)
         RLSU_ON_DEBUG(GetLogfile_()  << BaseTabsStr() << text;)
         break;
 

@@ -14,7 +14,7 @@
 #define RLSU_ON_DEBUG(code_)
 #endif
 
-namespace RLSU {
+namespace RLSU::Log {
     
 std::string GetRelativePath(const std::string& abs_path_str);
 
@@ -49,8 +49,16 @@ public:
     }
 
     std::string module_name;
-
     bool module_name_inited = false;
+
+    static std::string GetLogFolder()
+    {
+        #ifdef LOG_DIR
+        return (std::string(LOG_DIR).empty() ? "log" : std::string(LOG_DIR));
+        #else
+        return "log";
+        #endif
+    }
 
     static size_t BaseTabsNum;
 
@@ -76,14 +84,7 @@ private:
 
     static bool InitializeLogfile_()
     {
-        const std::string& log_folder = 
-        #ifdef LOG_DIR
-        (std::string(LOG_DIR).empty() ? "log" : std::string(LOG_DIR));
-        #else
-        "log";
-        #endif
-        
-        GetLogfile_().open(log_folder + "/" + logfile_name_);
+        GetLogfile_().open(GetLogFolder() + "/" + logfile_name_);
 
         return GetLogfile_().is_open();
     }
@@ -96,7 +97,7 @@ private:
 static Logger ModuleLogger;
 
 
-}   // namespace RLSU
+}   // namespace RLSU::Log
 
 
 #ifndef MODULE_NAME
@@ -105,21 +106,43 @@ static Logger ModuleLogger;
 
 #define PZDC                                                                                    \
     do {                                                                                        \
-    if (!RLSU::ModuleLogger.module_name_inited)                                                 \
+    if (!RLSU::Log::ModuleLogger.module_name_inited)                                            \
     {                                                                                           \
-        RLSU::ModuleLogger.module_name = MODULE_NAME;                                           \
-        RLSU::ModuleLogger.module_name_inited = true;                                           \
+        RLSU::Log::ModuleLogger.module_name = MODULE_NAME;                                      \
+        RLSU::Log::ModuleLogger.module_name_inited = true;                                      \
     }                                                                                           \
     } while(0)                                                                                  \
 
-#define RLSU_INFO(    std_format_, ...) do {PZDC;  RLSU::ModuleLogger.Log(__FILE__, __LINE__, __func__, RLSU::Logger::INFO   , std_format_, ##__VA_ARGS__);} while(0) 
-#define RLSU_MESSAGE( std_format_, ...) do {PZDC;  RLSU::ModuleLogger.Log(__FILE__, __LINE__, __func__, RLSU::Logger::MESSAGE, std_format_, ##__VA_ARGS__);} while(0)
-#define RLSU_LOG(     std_format_, ...) do {PZDC;  RLSU::ModuleLogger.Log(__FILE__, __LINE__, __func__, RLSU::Logger::LOG    , std_format_, ##__VA_ARGS__);} while(0)
-#define RLSU_WARNING( std_format_, ...) do {PZDC;  RLSU::ModuleLogger.Log(__FILE__, __LINE__, __func__, RLSU::Logger::WARNING, std_format_, ##__VA_ARGS__);} while(0)
-#define RLSU_ERROR(   std_format_, ...) do {PZDC;  RLSU::ModuleLogger.Log(__FILE__, __LINE__, __func__, RLSU::Logger::ERROR  , std_format_, ##__VA_ARGS__);} while(0)
+    
+    
+    
+#ifdef DEBUG_MODE    
+    #define RLSU_WARNING( std_format_, ...) do {PZDC;  RLSU::Log::ModuleLogger.Log(__FILE__, __LINE__, __func__, RLSU::Log::Logger::WARNING, std_format_, ##__VA_ARGS__);} while(0)
+    #define RLSU_ERROR(   std_format_, ...) do {PZDC;  RLSU::Log::ModuleLogger.Log(__FILE__, __LINE__, __func__, RLSU::Log::Logger::ERROR  , std_format_, ##__VA_ARGS__);} while(0)
+    #define RLSU_INFO(    std_format_, ...) do {PZDC;  RLSU::Log::ModuleLogger.Log(__FILE__, __LINE__, __func__, RLSU::Log::Logger::INFO   , std_format_, ##__VA_ARGS__);} while(0) 
+    #define RLSU_MESSAGE( std_format_, ...) do {PZDC;  RLSU::Log::ModuleLogger.Log(__FILE__, __LINE__, __func__, RLSU::Log::Logger::MESSAGE, std_format_, ##__VA_ARGS__);} while(0)
+    #define RLSU_LOG(     std_format_, ...) do {PZDC;  RLSU::Log::ModuleLogger.Log(__FILE__, __LINE__, __func__, RLSU::Log::Logger::LOG    , std_format_, ##__VA_ARGS__);} while(0)
+
+    #define RLSU_DUMP(_DumpFunc)                                                                \
+    do {                                                                                        \
+        PZDC;                                                                                   \
+        RLSU::Log::ModuleLogger.Log(__FILE__, __LINE__, __func__, RLSU::Logger::DUMP, "\n" );   \
+        _DumpFunc;                                                                              \
+    } while(0)
+
+#else
+    #define RLSU_WARNING( std_format_, ...) do {RLSU::Log::ModuleLogger.Log(__FILE__, __LINE__, __func__, RLSU::Log::Logger::WARNING, std_format_, ##__VA_ARGS__);} while(0)
+    #define RLSU_ERROR(   std_format_, ...) do {RLSU::Log::ModuleLogger.Log(__FILE__, __LINE__, __func__, RLSU::Log::Logger::ERROR  , std_format_, ##__VA_ARGS__);} while(0)
+
+    #define RLSU_INFO(    std_format_, ...)
+    #define RLSU_MESSAGE( std_format_, ...)
+    #define RLSU_LOG(     std_format_, ...)
+    #define RLSU_DUMP(_DumpFunc)
+#endif
 
 
-#define RLSU_BASETAB_INCREACE RLSU::ModuleLogger.BaseTabsNum++
-#define RLSU_BASETAB_DECREACE RLSU::ModuleLogger.BaseTabsNum--
+
+#define RLSU_BASETAB_INCREACE RLSU::Log::ModuleLogger.BaseTabsNum++
+#define RLSU_BASETAB_DECREACE RLSU::Log::ModuleLogger.BaseTabsNum--
 
 #include "RLogSU/error_handler.hpp"

@@ -1,7 +1,5 @@
 #pragma once
 
-namespace RLSU {
-
 #define ERROR_HANDLE(_CallFunc)                                                                                                 \
     [&]() -> decltype(auto) {                                                                                                   \
         try {                                                                                                                   \
@@ -20,7 +18,7 @@ do {                                                                            
     if (!(_condition))                                                                                                          \
     {                                                                                                                           \
         PZDC;                                                                                                                   \
-        RLSU::ModuleLogger.Log(__FILE__, __LINE__, __func__, RLSU::Logger::VERIFY, std::string(#_condition));                   \
+        RLSU::Log::ModuleLogger.Log(__FILE__, __LINE__, __func__, RLSU::Log::Logger::VERIFY, std::string(#_condition));                   \
         __VA_OPT__(                                                                                                             \
             RLSU_MESSAGE(__VA_ARGS__);                                                                                          \
             RLSU_LOG("\n");                                                                                                     \
@@ -50,7 +48,7 @@ do {                                                                            
     if (!(_condition))                                                                                                          \
     {                                                                                                                           \
         PZDC;                                                                                                                   \
-        RLSU::ModuleLogger.Log(__FILE__, __LINE__, __func__, RLSU::Logger::ASSERT, std::string(#_condition));                   \
+        RLSU::Log::ModuleLogger.Log(__FILE__, __LINE__, __func__, RLSU::Log::Logger::ASSERT, std::string(#_condition));                   \
         __VA_OPT__(                                                                                                             \
             RLSU_MESSAGE(__VA_ARGS__);                                                                                          \
             RLSU_LOG("\n");                                                                                                     \
@@ -59,18 +57,9 @@ do {                                                                            
     }                                                                                                                           \
 } while(0)
 
-#define RLSU_DUMP(_DumpFunc)                                                                                                    \
-do {                                                                                                                            \
-    PZDC;                                                                                                                       \
-    RLSU::ModuleLogger.Log(__FILE__, __LINE__, __func__, RLSU::Logger::DUMP, "\n" );                                              \
-    _DumpFunc;                                                                                                                  \
-} while(0)
-
 
 #else
-#define ASSERT_HANDLE(_CallFunc)
-#define RLSU_ASSERT(_condition, ...)
-#define RLSU_DUMP(_DumpFunc)
+    #define ASSERT_HANDLE(_CallFunc)
+    #define RLSU_ASSERT(_condition, ...)
+    #define RLSU_DUMP(_DumpFunc)
 #endif
-
-} // namespace RLSU
