@@ -6,6 +6,8 @@
 #include <fmt/core.h>
 #include <string>
 #include <vector>
+#include <any>
+
 
 namespace RLSU::Graphics {
 
@@ -31,7 +33,7 @@ private:
     static constexpr std::string TmpDotFileName  = "tmp_cfg.dot";
     
 
-    std::vector<size_t> nodes_ids;
+    std::vector<const void*> nodes_ptrs;
 
     std::ofstream dot_file;
 
@@ -41,29 +43,29 @@ private:
                + GraphNamePrefix + std::to_string(DrawnGraphsNum) + ".png";
     }
 
-    bool ContainsNode(size_t node_id) const;
+    bool ContainsNode(const void* node_ptr) const;
 };
 
 
 class Graph::Node
 {
 public:
-    Node() 
-    : id(NodesCounter++) 
+    
+    Node(const void* owner_ptr)
+    : OwnerPtr(owner_ptr)
     , label_("no-label")
     , color_(Colors::AQUAMARINE)
     , shape_(Shapes::ELLIPSE)
     {}
 
-    Node(const Colors::Color& color, const Shapes::NodeShape& shape)
-    : id(NodesCounter++) 
+    Node(const void* owner_ptr, const Colors::Color& color, const Shapes::NodeShape& shape)
+    : OwnerPtr(owner_ptr)
     , label_("no-label")
     , color_(color)
     , shape_(shape)
     {}
 
-    static size_t NodesCounter;
-    const size_t id;
+    const void* const OwnerPtr;
 
     template<typename... Args>
     void SetLabel(const std::string& format, Args&&... args)

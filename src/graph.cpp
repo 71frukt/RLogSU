@@ -12,8 +12,7 @@
 
 namespace RLSU::Graphics {
 
-size_t Graph::Node::NodesCounter = 0;
-size_t Graph::DrawnGraphsNum     = 0;
+size_t Graph::DrawnGraphsNum = 0;
 
 
 Graph::Graph()
@@ -22,7 +21,7 @@ Graph::Graph()
 
     std::filesystem::create_directory(Log::Logger::GetLogFolder() + "/" + GraphsFolder);
 
-    dot_file << "digraph G{                               \n"
+    dot_file << "digraph G{                                       \n"
              << "   bgcolor = \"" << Colors::DARKSLATEGRAY <<  "\"\n"
              << "   edge [color = \"" << Colors::AQUA <<    "\"]; \n";
 }
@@ -34,10 +33,10 @@ Graph::~Graph()
 
 void Graph::AddNode(Node& new_node)
 {
-    nodes_ids.push_back(new_node.id);
+    nodes_ptrs.push_back(new_node.OwnerPtr);
     new_node.pushed_in_graph = true;
 
-    dot_file << NodeNamePrefix << new_node.id 
+    dot_file << NodeNamePrefix << new_node.OwnerPtr
              << "["
              << "  shape     = \"" << new_node.GetShape() << "\""
              << ", style     = filled"
@@ -48,11 +47,11 @@ void Graph::AddNode(Node& new_node)
 
 void Graph::AddEdge(const Node& node1, const Node& node2)
 {
-    RLSU_ASSERT(ContainsNode(node1.id));
-    RLSU_ASSERT(ContainsNode(node2.id));
+    RLSU_ASSERT(ContainsNode(node1.OwnerPtr), "mb forgot AddNode()?");
+    RLSU_ASSERT(ContainsNode(node2.OwnerPtr), "mb forgot AddNode()?");
 
-    dot_file << NodeNamePrefix << node1.id << "->"
-             << NodeNamePrefix << node2.id << "\n";
+    dot_file << NodeNamePrefix << node1.OwnerPtr << "->"
+             << NodeNamePrefix << node2.OwnerPtr << "\n";
 }
 
 
@@ -69,16 +68,16 @@ void Graph::LogGraph()
 
     RLSU_LOG("<img src = {} width = \"({})%\" style=\"margin-left: 3%\">\n"
             , GraphsFolder + "/" + GraphNamePrefix + std::to_string(DrawnGraphsNum) + ".png"
-            , std::min(((double)nodes_ids.size() / 100.0), 90.0));
+            , std::min(((double)nodes_ptrs.size() / 100.0), 90.0));
     DrawnGraphsNum++;
 }
 
 
-bool Graph::ContainsNode(size_t node_id) const
+bool Graph::ContainsNode(const void* node_ptr) const
 {
-    for (size_t i = 0; i < nodes_ids.size(); i++)
+    for (size_t i = 0; i < nodes_ptrs.size(); i++)
     {
-        if (node_id == nodes_ids[i])
+        if (node_ptr == nodes_ptrs[i])
             return true;
     }
 

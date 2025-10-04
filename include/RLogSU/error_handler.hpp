@@ -61,5 +61,4 @@ do {                                                                            
 #else
     #define ASSERT_HANDLE(_CallFunc)
     #define RLSU_ASSERT(_condition, ...)
-    #define RLSU_DUMP(_DumpFunc)
 #endif
