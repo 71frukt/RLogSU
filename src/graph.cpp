@@ -23,13 +23,13 @@ Graph::Graph()
     std::filesystem::create_directory(Log::Logger::GetLogFolder() + "/" + GraphsFolder);
 
     dot_file << "digraph G{                               \n"
-             << "   bgcolor = \"" << DARKSLATEGRAY <<  "\"\n"
-             << "   edge [color = \"" << AQUA <<    "\"]; \n";
+             << "   bgcolor = \"" << Colors::DARKSLATEGRAY <<  "\"\n"
+             << "   edge [color = \"" << Colors::AQUA <<    "\"]; \n";
 }
 
 Graph::~Graph()
 {
-    std::remove(TmpDotFileName.c_str());
+    // std::remove(TmpDotFileName.c_str());
 }
 
 void Graph::AddNode(Node& new_node)

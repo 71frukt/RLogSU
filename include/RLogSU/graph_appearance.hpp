@@ -4,6 +4,8 @@
 
 namespace RLSU::Graphics {
 
+namespace Colors {
+
 using Color = std::string;
 
 const Color BLACK         = "black"        ;
@@ -18,6 +20,10 @@ const Color AQUAMARINE    = "aquamarine"   ;    // default for nodes
 const Color GREY          = "grey"         ;
 const Color DARKSLATEGRAY = "darkslategray";    // default for backgrownd 
 
+} // namespace Colors
+
+
+namespace Shapes {
 
 using NodeShape = std::string;
 
@@ -26,6 +32,8 @@ const NodeShape CIRCLE   = "circle"  ;
 const NodeShape BOX      = "box"     ;
 const NodeShape BOX3D    = "box3d"   ;
 const NodeShape TRIANGLE = "triangle";
+const NodeShape DIAMOND  = "diamond" ;
 
+} // namespace Shapes
 
 } // namespace RLSU::Graphics

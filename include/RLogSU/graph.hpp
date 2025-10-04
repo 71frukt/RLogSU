@@ -51,11 +51,11 @@ public:
     Node() 
     : id(NodesCounter++) 
     , label_("no-label")
-    , color_(AQUAMARINE)
-    , shape_(ELLIPSE)
+    , color_(Colors::AQUAMARINE)
+    , shape_(Shapes::ELLIPSE)
     {}
 
-    Node(const Color& color, const NodeShape& shape)
+    Node(const Colors::Color& color, const Shapes::NodeShape& shape)
     : id(NodesCounter++) 
     , label_("no-label")
     , color_(color)
@@ -72,8 +72,8 @@ public:
         label_ = fmt::vformat(format, fmt::make_format_args(std::forward<Args>(args)...));
     }
 
-    void SetColor(const Color&     color) { RLSU_ASSERT(!pushed_in_graph); color_ = color; }
-    void SetShape(const NodeShape& shape) { RLSU_ASSERT(!pushed_in_graph); shape_ = shape; }
+    void SetColor(const Colors::Color    & color) { RLSU_ASSERT(!pushed_in_graph); color_ = color; }
+    void SetShape(const Shapes::NodeShape& shape) { RLSU_ASSERT(!pushed_in_graph); shape_ = shape; }
 
     [[nodiscard]] const std::string& GetLabel() const { return label_; }
     [[nodiscard]] const std::string& GetColor() const { return color_; }
@@ -83,9 +83,9 @@ public:
     bool pushed_in_graph = false;
 
 private:
-    std::string label_;
-    Color       color_;
-    NodeShape   shape_;
+    std::string       label_;
+    Colors::Color     color_;
+    Shapes::NodeShape shape_;
 
 };
 

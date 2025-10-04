@@ -123,11 +123,11 @@ static Logger ModuleLogger;
     #define RLSU_MESSAGE( std_format_, ...) do {PZDC;  RLSU::Log::ModuleLogger.Log(__FILE__, __LINE__, __func__, RLSU::Log::Logger::MESSAGE, std_format_, ##__VA_ARGS__);} while(0)
     #define RLSU_LOG(     std_format_, ...) do {PZDC;  RLSU::Log::ModuleLogger.Log(__FILE__, __LINE__, __func__, RLSU::Log::Logger::LOG    , std_format_, ##__VA_ARGS__);} while(0)
 
-    #define RLSU_DUMP(_DumpFunc)                                                                \
-    do {                                                                                        \
-        PZDC;                                                                                   \
-        RLSU::Log::ModuleLogger.Log(__FILE__, __LINE__, __func__, RLSU::Logger::DUMP, "\n" );   \
-        _DumpFunc;                                                                              \
+    #define RLSU_DUMP(_DumpFunc)                                                                     \
+    do {                                                                                             \
+        PZDC;                                                                                        \
+        RLSU::Log::ModuleLogger.Log(__FILE__, __LINE__, __func__, RLSU::Log::Logger::DUMP, "\n" );   \
+        _DumpFunc;                                                                                   \
     } while(0)
 
 #else
