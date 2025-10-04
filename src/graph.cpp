@@ -45,13 +45,13 @@ void Graph::AddNode(Node& new_node)
              << "]\n";
 }
 
-void Graph::AddEdge(const Node& node1, const Node& node2)
+void Graph::AddEdge(const void* node_origin_ptr, const void* node_dest_ptr)
 {
-    RLSU_ASSERT(ContainsNode(node1.OwnerPtr), "mb forgot AddNode()?");
-    RLSU_ASSERT(ContainsNode(node2.OwnerPtr), "mb forgot AddNode()?");
+    RLSU_ASSERT(ContainsNode(node_origin_ptr), "mb forgot AddNode()?");
+    RLSU_ASSERT(ContainsNode(node_dest_ptr), "mb forgot AddNode()?");
 
-    dot_file << NodeNamePrefix << node1.OwnerPtr << "->"
-             << NodeNamePrefix << node2.OwnerPtr << "\n";
+    dot_file << NodeNamePrefix << node_origin_ptr << "->"
+             << NodeNamePrefix << node_dest_ptr << "\n";
 }
 
 

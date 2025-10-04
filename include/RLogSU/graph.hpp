@@ -19,8 +19,8 @@ public:
     
     class Node;
 
-    void AddNode(Node& new_node);
-    void AddEdge(const Node& node1, const Node& node2);
+    void AddNode(Node& new_graph_node);
+    void AddEdge(const void* node_origin_ptr, const void* node_dest_ptr);
 
     void LogGraph();
 
