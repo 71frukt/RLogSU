@@ -141,7 +141,7 @@ static Logger ModuleLogger;
     #define RLSU_INFO(    std_format_, ...)
     #define RLSU_MESSAGE( std_format_, ...)
     #define RLSU_LOG(     std_format_, ...)
-    #define RLSU_DUMP(_DumpFunc)
+    #define RLSU_DUMP(_DumpFunc, ...)
 #endif
 
 

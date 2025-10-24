@@ -28,7 +28,7 @@ Graph::Graph()
 
 Graph::~Graph()
 {
-    // std::remove(TmpDotFileName.c_str());
+    std::remove(TmpDotFileName.c_str());
 }
 
 void Graph::AddNode(Node& new_node)
@@ -66,9 +66,9 @@ void Graph::LogGraph()
 
     system(command.c_str());
 
-    RLSU_LOG("<img src = {} width = \"({})%\" style=\"margin-left: 3%\">\n"
+    RLSU_LOG("<img src={} width=\"{}%\" style=\"margin-left: 3%\">\n"
             , GraphsFolder + "/" + GraphNamePrefix + std::to_string(DrawnGraphsNum) + ".png"
-            , std::min(((double)nodes_ptrs.size() / 100.0), 90.0));
+            , std::min(((double)nodes_ptrs.size() * 8.0), 95.0));
     DrawnGraphsNum++;
 }
 
