@@ -65,6 +65,9 @@ public:
     , shape_(shape)
     {}
 
+    Node& operator=(const Node&) = delete;
+    Node(const Node&)            = delete;
+    
     const void* const OwnerPtr;
 
     template<typename... Args>

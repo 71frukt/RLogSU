@@ -8,7 +8,7 @@
 #include <string>
 
 
-#ifdef DEBUG_MODE
+#ifndef NDEBUG
 #define RLSU_ON_DEBUG(code_)  code_
 #else
 #define RLSU_ON_DEBUG(code_)
@@ -117,7 +117,7 @@ static Logger ModuleLogger;
     
     
     
-#ifdef DEBUG_MODE    
+#ifndef NDEBUG    
     #define RLSU_WARNING( std_format_, ...) do {PZDC;  RLSU::Log::ModuleLogger.Log(__FILE__, __LINE__, __func__, RLSU::Log::Logger::WARNING, std_format_, ##__VA_ARGS__);} while(0)
     #define RLSU_ERROR(   std_format_, ...) do {PZDC;  RLSU::Log::ModuleLogger.Log(__FILE__, __LINE__, __func__, RLSU::Log::Logger::ERROR  , std_format_, ##__VA_ARGS__);} while(0)
     #define RLSU_INFO(    std_format_, ...) do {PZDC;  RLSU::Log::ModuleLogger.Log(__FILE__, __LINE__, __func__, RLSU::Log::Logger::INFO   , std_format_, ##__VA_ARGS__);} while(0) 

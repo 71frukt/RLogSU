@@ -39,9 +39,9 @@ target_link_libraries(${PROJECT_NAME} PRIVATE
 # )
 
 
-if(DEBUG_MODE)
-    target_compile_definitions(${PROJECT_NAME} PRIVATE DEBUG_MODE)
-    message(STATUS "${PROJECT_NAME}: DEBUG_MODE ENABLED")
-else()
-    message(STATUS "${PROJECT_NAME}: DEBUG_MODE DISABLED")
-endif()
+# if(NDEBUG)
+#     target_compile_definitions(${PROJECT_NAME} PRIVATE NDEBUG)
+#     message(STATUS "${PROJECT_NAME}: NDEBUG ENABLED")
+# else()
+#     message(STATUS "${PROJECT_NAME}: NDEBUG DISABLED")
+# endif()

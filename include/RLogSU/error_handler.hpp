@@ -29,7 +29,7 @@ do {                                                                            
 
 
 
-#ifdef DEBUG_MODE
+#ifndef NDEBUG
 
 #define ASSERT_HANDLE(_CallFunc)                                                                                                \
     [&]() -> decltype(auto) {                                                                                                   \

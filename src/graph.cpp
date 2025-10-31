@@ -16,6 +16,8 @@ size_t Graph::DrawnGraphsNum = 0;
 
 
 Graph::Graph()
+    : nodes_ptrs()
+    , dot_file()
 {
     dot_file.open(TmpDotFileName);
 

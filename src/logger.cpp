@@ -17,10 +17,11 @@ size_t Logger::BaseTabsNum = 0;
 
 
 Logger::Logger()
+    : module_name("unknown")
 {
     RLSU_ON_DEBUG(
 
-        static bool is_opened = false;
+    static bool is_opened = false;
 
     if (is_opened) return;
 
@@ -30,9 +31,9 @@ Logger::Logger()
         std::cerr << "Faild opening of logfile";
 
 
-    GetLogfile_() << "<html>                                                                                                     \n"
+    GetLogfile_() << "<html>                                                                                               \n"
             << "\t<head>                                                                                                   \n"
-            << "\t<title>" << logfile_name_ << "</title>                                                                    \n"
+            << "\t<title>" << logfile_name_ << "</title>                                                                   \n"
             << "\t<link rel=\"stylesheet\" href=\"https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css\"> \n"
             << "\t</head>                                                                                                  \n"
             << "\t<body>                                                                                                   \n"
