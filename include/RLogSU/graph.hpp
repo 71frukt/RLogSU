@@ -2,11 +2,12 @@
 
 #include "RLogSU/logger.hpp"
 #include "RLogSU/graph_appearance.hpp"
+#include <cmath>
 #include <cstddef>
 #include <fmt/core.h>
 #include <string>
 #include <vector>
-#include <any>
+#include <functional>
 
 
 namespace RLSU::Graphics {
@@ -14,9 +15,14 @@ namespace RLSU::Graphics {
 class Graph
 {
 public:
-    Graph(Colors::Color backgrownd_color    = Colors::DARKSLATEGRAY,
+    Graph(std::function<size_t(size_t)> SizeToWidth =
+            [](size_t graph_size) -> size_t {
+                return size_t(std::sqrt(graph_size));
+            },
+
+          Colors::Color backgrownd_color    = Colors::DARKSLATEGRAY,
           Colors::Color default_edges_color = Colors::AQUA);
-    
+
     ~Graph();
 
     void operator=(const Graph& other) = delete;
@@ -48,12 +54,13 @@ private:
     [[nodiscard]] const std::string GetCurGraphPath()
     {
         return   Log::Logger::GetLogFolder() + "/" + GraphsFolder + "/"
-               + GraphNamePrefix + std::to_string(DrawnGraphsNum) + ".png";
+               + GraphNamePrefix + std::to_string(DrawnGraphsNum) + ".svg";
     }
 
     bool ContainsNode(const void* node_ptr) const;
-};
 
+    const std::function<size_t(size_t)> SizeToWidth_; 
+};
 
 class Graph::Node
 {

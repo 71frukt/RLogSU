@@ -15,11 +15,14 @@ namespace RLSU::Graphics {
 size_t Graph::DrawnGraphsNum = 0;
 
 
-Graph::Graph(Colors::Color backgrownd_color, Colors::Color default_edges_color)
+Graph::Graph(std::function<size_t(size_t)> SizeToWidth,
+             Colors::Color backgrownd_color,
+             Colors::Color default_edges_color)
     : nodes_ptrs()
     , dot_file()
     , BACKGROWND_COLOR   (backgrownd_color)
     , DEFAULT_EDGES_COLOR(default_edges_color)
+    , SizeToWidth_(SizeToWidth)
 {
     dot_file.open(TmpDotFileName);
 
@@ -76,7 +79,7 @@ void Graph::LogGraph()
 
     RLSU_LOG("<img src={} width=\"{}%\" style=\"margin-left: 3%\">\n"
             , GraphsFolder + "/" + GraphNamePrefix + std::to_string(DrawnGraphsNum) + ".png"
-            , std::min(((double)nodes_ptrs.size() * 8.0), 95.0));
+            , std::min(((double) SizeToWidth_(nodes_ptrs.size()) * 8.0), 95.0));
     DrawnGraphsNum++;
 }
 
