@@ -15,42 +15,48 @@ namespace RLSU::Graphics {
 size_t Graph::DrawnGraphsNum = 0;
 
 
-Graph::Graph()
+Graph::Graph(Colors::Color backgrownd_color, Colors::Color default_edges_color)
     : nodes_ptrs()
     , dot_file()
+    , BACKGROWND_COLOR   (backgrownd_color)
+    , DEFAULT_EDGES_COLOR(default_edges_color)
 {
     dot_file.open(TmpDotFileName);
 
     std::filesystem::create_directory(Log::Logger::GetLogFolder() + "/" + GraphsFolder);
 
-    dot_file << "digraph G{                                       \n"
-             << "   bgcolor = \"" << Colors::DARKSLATEGRAY <<  "\"\n"
-             << "   edge [color = \"" << Colors::AQUA <<    "\"]; \n";
+    dot_file << "digraph G{                                           \n"
+             << "   bgcolor = \""     << BACKGROWND_COLOR    <<    "\"\n"
+             << "   edge [color = \"" << DEFAULT_EDGES_COLOR << "\"]; \n";
 }
+
 
 Graph::~Graph()
 {
-    std::remove(TmpDotFileName.c_str());
+    // std::remove(TmpDotFileName.c_str());
 }
 
 void Graph::AddNode(Node& new_node)
 {
+    RLSU_INFO("OwnerPtr2 = {}", (void*) new_node.OwnerPtr);
+
     nodes_ptrs.push_back(new_node.OwnerPtr);
     new_node.pushed_in_graph = true;
 
     dot_file << NodeNamePrefix << new_node.OwnerPtr
              << "["
-             << "  shape     = \"" << new_node.GetShape() << "\""
+             << "  shape     = \"" << new_node.GetShape()       << "\""
              << ", style     = filled"
-             << ", fillcolor = \"" << new_node.GetColor() << "\""
-             << ", label     = \"" << new_node.GetLabel() << "\""
-             << "]\n";
+             << ", fillcolor = \"" << new_node.GetColor()       << "\""
+             << ", color     = \"" << new_node.GetBorderColor() << "\""
+             << ", label     = \"" << new_node.GetLabel()       << "\""
+             << "]" << std::endl;
 }
 
 void Graph::AddEdge(const void* node_origin_ptr, const void* node_dest_ptr)
 {
     RLSU_ASSERT(ContainsNode(node_origin_ptr), "mb forgot AddNode()?");
-    RLSU_ASSERT(ContainsNode(node_dest_ptr), "mb forgot AddNode()?");
+    RLSU_ASSERT(ContainsNode(node_dest_ptr)  , "mb forgot AddNode()?");
 
     dot_file << NodeNamePrefix << node_origin_ptr << "->"
              << NodeNamePrefix << node_dest_ptr << "\n";

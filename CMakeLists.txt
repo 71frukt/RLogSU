@@ -10,9 +10,11 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 #--- GET LOG DIR --------------------------------------------------------
 if(NOT DEFINED LOG_DIR)
     set(LOG_DIR ${CMAKE_CURRENT_SOURCE_DIR}/log)
-    file(MAKE_DIRECTORY ${LOG_DIR})
 else()
 endif()
+
+file(MAKE_DIRECTORY ${LOG_DIR})
+message(STATUS "${PROJECT_NAME}: folder newed")
 #------------------------------------------------------------------------
 
 find_package(fmt REQUIRED)
