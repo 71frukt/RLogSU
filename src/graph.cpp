@@ -36,13 +36,11 @@ Graph::Graph(std::function<size_t(size_t)> SizeToWidth,
 
 Graph::~Graph()
 {
-    // std::remove(TmpDotFileName.c_str());
+    // std::remove(TmpDotFileName.c_str()); // FIXME: uncomment
 }
 
 void Graph::AddNode(Node& new_node)
 {
-    RLSU_INFO("OwnerPtr2 = {}", (void*) new_node.OwnerPtr);
-
     nodes_ptrs.push_back(new_node.OwnerPtr);
     new_node.pushed_in_graph = true;
 
@@ -52,17 +50,54 @@ void Graph::AddNode(Node& new_node)
              << ", style     = filled"
              << ", fillcolor = \"" << new_node.GetColor()       << "\""
              << ", color     = \"" << new_node.GetBorderColor() << "\""
+             << ", fontcolor = \"" << new_node.GetFontcolor()   << "\""
              << ", label     = \"" << new_node.GetLabel()       << "\""
              << "]" << std::endl;
 }
 
+void Graph::AddNode(void* node_ptr, std::string label, Colors::Color color, Colors::Color border_color, Colors::Color fontcolor, Shapes::NodeShape shape)
+{
+    Node new_node(node_ptr, label, color, border_color, fontcolor, shape);
+    AddNode(new_node);
+}
+
+
+void Graph::AddEdge(const Edge& new_edge)
+{
+    RLSU_ASSERT(ContainsNode(new_edge.origin_ptr), "mb forgot AddNode()?");
+    RLSU_ASSERT(ContainsNode(new_edge.dest_ptr)  , "mb forgot AddNode()?");
+
+    dot_file << NodeNamePrefix << new_edge.origin_ptr << "->"
+             << NodeNamePrefix << new_edge.dest_ptr
+             << " ["
+             << "label=\""     << new_edge.label     << "\", "
+             << "color=\""     << new_edge.color     << "\", "
+             << "fontcolor=\"" << new_edge.fontcolor << "\""
+             << "]\n";
+}
+
+void Graph::AddEdge(const void* node_origin_ptr, const void* node_dest_ptr, const std::string& label, const Colors::Color& color)
+{
+    Graph::Edge new_edge(node_origin_ptr, node_dest_ptr, label, color, DEFAULT_EDGES_COLOR);
+    AddEdge(new_edge);
+}
+
+void Graph::AddEdge(const void* node_origin_ptr, const void* node_dest_ptr, const Colors::Color& color)
+{
+    Graph::Edge new_edge(node_origin_ptr, node_dest_ptr, "", color, DEFAULT_EDGES_COLOR);
+    AddEdge(new_edge);
+}
+
+void Graph::AddEdge(const void* node_origin_ptr, const void* node_dest_ptr, const std::string& label)
+{
+    Graph::Edge new_edge(node_origin_ptr, node_dest_ptr, label, DEFAULT_EDGES_COLOR, DEFAULT_EDGES_COLOR);
+    AddEdge(new_edge);
+}
+
 void Graph::AddEdge(const void* node_origin_ptr, const void* node_dest_ptr)
 {
-    RLSU_ASSERT(ContainsNode(node_origin_ptr), "mb forgot AddNode()?");
-    RLSU_ASSERT(ContainsNode(node_dest_ptr)  , "mb forgot AddNode()?");
-
-    dot_file << NodeNamePrefix << node_origin_ptr << "->"
-             << NodeNamePrefix << node_dest_ptr << "\n";
+    Graph::Edge new_edge(node_origin_ptr, node_dest_ptr, "", DEFAULT_EDGES_COLOR, DEFAULT_EDGES_COLOR);
+    AddEdge(new_edge);
 }
 
 

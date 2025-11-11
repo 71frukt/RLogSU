@@ -6,33 +6,45 @@ namespace RLSU::Graphics {
 
 namespace Colors {
 
-using Color = std::string;
+class Color : public std::string
+{
+public:
+    explicit Color(const char* str)        : std::string(str)         {}
+    explicit Color(const std::string& str) : std::string(str)            {}
+    explicit Color(std::string&& str)      : std::string(std::move(str)) {}
+};
 
-const Color BLACK         = "black"        ;
-const Color WHITE         = "white"        ;
-const Color RED           = "red"          ;
-const Color GREEN         = "green"        ;
-const Color BLUE          = "blue"         ;
-const Color YELLOW        = "yellow"       ;
-const Color SKYBLUE       = "skyblue"      ;
-const Color AQUA          = "aqua"         ;    // default for edges
-const Color AQUAMARINE    = "aquamarine"   ;    // default for nodes
-const Color GREY          = "grey"         ;
-const Color DARKSLATEGRAY = "darkslategray";    // default for backgrownd 
+const Color BLACK         = Color("black"        );
+const Color WHITE         = Color("white"        );
+const Color RED           = Color("red"          );
+const Color GREEN         = Color("green"        );
+const Color BLUE          = Color("blue"         );
+const Color YELLOW        = Color("yellow"       );
+const Color SKYBLUE       = Color("skyblue"      );
+const Color AQUA          = Color("aqua"         );    // default for edges
+const Color AQUAMARINE    = Color("aquamarine"   );    // default for nodes
+const Color GREY          = Color("grey"         );
+const Color DARKSLATEGRAY = Color("darkslategray");    // default for backgrownd 
 
 } // namespace Colors
 
 
 namespace Shapes {
 
-using NodeShape = std::string;
+class NodeShape : public std::string
+{
+public:
+    explicit NodeShape(const char* str)        : std::string(str)         {}
+    explicit NodeShape(const std::string& str) : std::string(str)            {}
+    explicit NodeShape(std::string&& str)      : std::string(std::move(str)) {}
+};
 
-const NodeShape ELLIPSE  = "ellipse" ;          // default for nodes
-const NodeShape CIRCLE   = "circle"  ;
-const NodeShape BOX      = "box"     ;
-const NodeShape BOX3D    = "box3d"   ;
-const NodeShape TRIANGLE = "triangle";
-const NodeShape DIAMOND  = "diamond" ;
+const NodeShape ELLIPSE  = NodeShape("ellipse" );          // default for nodes
+const NodeShape CIRCLE   = NodeShape("circle"  );
+const NodeShape BOX      = NodeShape("box"     );
+const NodeShape BOX3D    = NodeShape("box3d"   );
+const NodeShape TRIANGLE = NodeShape("triangle");
+const NodeShape DIAMOND  = NodeShape("diamond" );
 
 } // namespace Shapes
 
