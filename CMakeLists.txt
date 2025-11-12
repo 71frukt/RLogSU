@@ -35,15 +35,4 @@ target_link_libraries(${PROJECT_NAME} PRIVATE
     fmt::fmt
 )
 
-# add_custom_target(run
-#     COMMAND ${CMAKE_BINARY_DIR}/${PROJECT_NAME}
-#     WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
-# )
-
-
-# if(NDEBUG)
-#     target_compile_definitions(${PROJECT_NAME} PRIVATE NDEBUG)
-#     message(STATUS "${PROJECT_NAME}: NDEBUG ENABLED")
-# else()
-#     message(STATUS "${PROJECT_NAME}: NDEBUG DISABLED")
-# endif()
+target_compile_definitions(${PROJECT_NAME} PRIVATE MODULE_NAME="${PROJECT_NAME}")

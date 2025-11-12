@@ -34,10 +34,10 @@ public:
     void AddNode(void* node_ptr, std::string label = "no-label", Colors::Color color = Colors::AQUAMARINE, Colors::Color border_color = Colors::BLACK, Colors::Color fontcolor = Colors::BLACK, Shapes::NodeShape shape = Shapes::ELLIPSE);
 
     void AddEdge(const Edge& new_edge);
-    void AddEdge(const void* node_origin_ptr, const void* node_dest_ptr);
-    void AddEdge(const void* node_origin_ptr, const void* node_dest_ptr, const Colors::Color& color);
-    void AddEdge(const void* node_origin_ptr, const void* node_dest_ptr, const std::string& label);
-    void AddEdge(const void* node_origin_ptr, const void* node_dest_ptr, const std::string& label, const Colors::Color& color);
+    void AddEdge(const void* node_origin_ptr, const void* node_dest_ptr, double weight = 1.0);
+    void AddEdge(const void* node_origin_ptr, const void* node_dest_ptr, const Colors::Color& color, double weight = 1.0);
+    void AddEdge(const void* node_origin_ptr, const void* node_dest_ptr, const std::string&   label, double weight = 1.0);
+    void AddEdge(const void* node_origin_ptr, const void* node_dest_ptr, const std::string&   label, const Colors::Color& color, double weight = 1.0);
 
     void LogGraph();
 
@@ -135,12 +135,13 @@ private:
 class Graph::Edge
 {
 public:
-    Edge(const void* node_origin_ptr, const void* node_dest_ptr, const std::string& edge_label = "", const Colors::Color& edge_color = Colors::AQUA, const Colors::Color& edge_fontcolor = Colors::AQUA)
+    Edge(const void* node_origin_ptr, const void* node_dest_ptr, const std::string& edge_label = "", const Colors::Color& edge_color = Colors::AQUA, const Colors::Color& edge_fontcolor = Colors::AQUA, double edge_weight = 1.0)
         : origin_ptr (node_origin_ptr)
         , dest_ptr   (node_dest_ptr)
         , label      (edge_label)
         , color      (edge_color)
         , fontcolor  (edge_fontcolor)
+        , weight     (edge_weight)
     {}
 
     Edge& operator=(const Edge&) = delete;
@@ -151,6 +152,7 @@ public:
     std::string   label;
     Colors::Color color;
     Colors::Color fontcolor;
+    double        weight;
 };
 
 } // namespace RLSU::Graphics

@@ -72,31 +72,32 @@ void Graph::AddEdge(const Edge& new_edge)
              << " ["
              << "label=\""     << new_edge.label     << "\", "
              << "color=\""     << new_edge.color     << "\", "
-             << "fontcolor=\"" << new_edge.fontcolor << "\""
+             << "fontcolor=\"" << new_edge.fontcolor << "\", "
+             << "weight=\""    << new_edge.weight    << "\"  "
              << "]\n";
 }
 
-void Graph::AddEdge(const void* node_origin_ptr, const void* node_dest_ptr, const std::string& label, const Colors::Color& color)
+void Graph::AddEdge(const void* node_origin_ptr, const void* node_dest_ptr, const std::string& label, const Colors::Color& color, double weight)
 {
-    Graph::Edge new_edge(node_origin_ptr, node_dest_ptr, label, color, DEFAULT_EDGES_COLOR);
+    Graph::Edge new_edge(node_origin_ptr, node_dest_ptr, label, color, DEFAULT_EDGES_COLOR, weight);
     AddEdge(new_edge);
 }
 
-void Graph::AddEdge(const void* node_origin_ptr, const void* node_dest_ptr, const Colors::Color& color)
+void Graph::AddEdge(const void* node_origin_ptr, const void* node_dest_ptr, const Colors::Color& color, double weight)
 {
-    Graph::Edge new_edge(node_origin_ptr, node_dest_ptr, "", color, DEFAULT_EDGES_COLOR);
+    Graph::Edge new_edge(node_origin_ptr, node_dest_ptr, "", color, DEFAULT_EDGES_COLOR, weight);
     AddEdge(new_edge);
 }
 
-void Graph::AddEdge(const void* node_origin_ptr, const void* node_dest_ptr, const std::string& label)
+void Graph::AddEdge(const void* node_origin_ptr, const void* node_dest_ptr, const std::string& label, double weight)
 {
-    Graph::Edge new_edge(node_origin_ptr, node_dest_ptr, label, DEFAULT_EDGES_COLOR, DEFAULT_EDGES_COLOR);
+    Graph::Edge new_edge(node_origin_ptr, node_dest_ptr, label, DEFAULT_EDGES_COLOR, DEFAULT_EDGES_COLOR, weight);
     AddEdge(new_edge);
 }
 
-void Graph::AddEdge(const void* node_origin_ptr, const void* node_dest_ptr)
+void Graph::AddEdge(const void* node_origin_ptr, const void* node_dest_ptr, double weight)
 {
-    Graph::Edge new_edge(node_origin_ptr, node_dest_ptr, "", DEFAULT_EDGES_COLOR, DEFAULT_EDGES_COLOR);
+    Graph::Edge new_edge(node_origin_ptr, node_dest_ptr, "", DEFAULT_EDGES_COLOR, DEFAULT_EDGES_COLOR, weight);
     AddEdge(new_edge);
 }
 
