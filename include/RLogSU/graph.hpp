@@ -31,7 +31,7 @@ public:
     class Edge;
 
     void AddNode(Node& new_node);
-    void AddNode(void* node_ptr, std::string label = "no-label", Colors::Color color = Colors::AQUAMARINE, Colors::Color border_color = Colors::BLACK, Colors::Color fontcolor = Colors::BLACK, Shapes::NodeShape shape = Shapes::ELLIPSE);
+    void AddNode(void* node_ptr, std::string label = "no-label", Colors::Color color = Colors::AQUAMARINE, Colors::Color border_color = Colors::AQUA, Colors::Color fontcolor = Colors::BLACK, Shapes::NodeShape shape = Shapes::ELLIPSE);
 
     void AddEdge(const Edge& new_edge);
     void AddEdge(const void* node_origin_ptr, const void* node_dest_ptr, double weight = 1.0);
@@ -75,7 +75,7 @@ public:
     : OwnerPtr(owner_ptr)
     , label_        ("no-label")
     , color_        (Colors::AQUAMARINE)
-    , border_color_ (Colors::BLACK)
+    , border_color_ (Colors::AQUA)
     , fontcolor_    (Colors::BLACK)
     , shape_        (Shapes::ELLIPSE)
     {}
@@ -84,7 +84,7 @@ public:
     : OwnerPtr      (owner_ptr)
     , label_        ("no-label")
     , color_        (color)
-    , border_color_ (Colors::BLACK)
+    , border_color_ (Colors::AQUA)
     , fontcolor_    (Colors::BLACK)    
     , shape_        (shape)
     {}
