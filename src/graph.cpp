@@ -111,7 +111,8 @@ void Graph::LogGraph()
                         + Log::Logger::GetLogFolder() + "/" + GraphsFolder + "/"
                         + GraphNamePrefix + std::to_string(DrawnGraphsNum) + ".png";
 
-    system(command.c_str());
+    if (system(command.c_str()) != 0)
+        std::cerr << "Error in command.c_str()";
 
     RLSU_LOG("<img src={} width=\"{}%\" style=\"margin-left: 3%\">\n"
             , GraphsFolder + "/" + GraphNamePrefix + std::to_string(DrawnGraphsNum) + ".png"
