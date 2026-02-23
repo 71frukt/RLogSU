@@ -1,7 +1,8 @@
 #include "RLogSU/graph.hpp"
-#include "RLogSU/error_handler.hpp"
 #include "RLogSU/logger.hpp"
+#include "RLogSU/logger_impl.hpp"
 
+#include <iostream>
 #include <cstddef>
 #include <fstream>
 #include <string>
@@ -26,7 +27,7 @@ Graph::Graph(std::function<size_t(size_t)> SizeToWidth,
 {
     dot_file.open(TmpDotFileName);
 
-    std::filesystem::create_directory(Log::Logger::GetLogFolder() + "/" + GraphsFolder);
+    std::filesystem::create_directory(Log::UnitLogger.GetLogsFolder() + "/" + GraphsFolder);
 
     dot_file << "digraph G{                                           \n"
              << "   bgcolor = \""     << BACKGROWND_COLOR    <<    "\"\n"
@@ -64,8 +65,8 @@ void Graph::AddNode(void* node_ptr, std::string label, Colors::Color color, Colo
 
 void Graph::AddEdge(const Edge& new_edge)
 {
-    RLSU_ASSERT(ContainsNode(new_edge.origin_ptr), "mb forgot AddNode()?");
-    RLSU_ASSERT(ContainsNode(new_edge.dest_ptr)  , "mb forgot AddNode()?");
+    assert(ContainsNode(new_edge.origin_ptr) && "mb forgot AddNode()?");
+    assert(ContainsNode(new_edge.dest_ptr)   && "mb forgot AddNode()?");
 
     dot_file << NodeNamePrefix << new_edge.origin_ptr << "->"
              << NodeNamePrefix << new_edge.dest_ptr
@@ -108,7 +109,7 @@ void Graph::LogGraph()
     dot_file.close();
 
     std::string command = "dot -Tpng " + TmpDotFileName + " -o "
-                        + Log::Logger::GetLogFolder() + "/" + GraphsFolder + "/"
+                        + Log::UnitLogger.GetLogsFolder() + "/" + GraphsFolder + "/"
                         + GraphNamePrefix + std::to_string(DrawnGraphsNum) + ".png";
 
     if (system(command.c_str()) != 0)

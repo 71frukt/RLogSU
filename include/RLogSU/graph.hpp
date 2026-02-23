@@ -59,7 +59,7 @@ private:
 
     [[nodiscard]] const std::string GetCurGraphPath()
     {
-        return   Log::Logger::GetLogFolder() + "/" + GraphsFolder + "/"
+        return   Log::UnitLogger.GetLogsFolder() + "/" + GraphsFolder + "/"
                + GraphNamePrefix + std::to_string(DrawnGraphsNum) + ".svg";
     }
 
@@ -106,14 +106,14 @@ public:
     template<typename... Args>
     void SetLabel(const std::string& format, Args&&... args)
     {
-        RLSU_ASSERT(!pushed_in_graph);
+        assert(!pushed_in_graph);
         label_ = fmt::vformat(format, fmt::make_format_args(std::forward<Args>(args)...));
     }
 
-    void SetColor       (const Colors::Color    & color)        { RLSU_ASSERT(!pushed_in_graph); color_        = color;        }
-    void SetBorderColor (const Colors::Color    & border_color) { RLSU_ASSERT(!pushed_in_graph); border_color_ = border_color; }
-    void SetFontcolor   (const Colors::Color    & fontcolor)    { RLSU_ASSERT(!pushed_in_graph); fontcolor_    = fontcolor;    }
-    void SetShape       (const Shapes::NodeShape& shape)        { RLSU_ASSERT(!pushed_in_graph); shape_        = shape;        }
+    void SetColor       (const Colors::Color    & color)        { assert(!pushed_in_graph); color_        = color;        }
+    void SetBorderColor (const Colors::Color    & border_color) { assert(!pushed_in_graph); border_color_ = border_color; }
+    void SetFontcolor   (const Colors::Color    & fontcolor)    { assert(!pushed_in_graph); fontcolor_    = fontcolor;    }
+    void SetShape       (const Shapes::NodeShape& shape)        { assert(!pushed_in_graph); shape_        = shape;        }
 
     [[nodiscard]] const std::string& GetLabel      () const { return label_;        }
     [[nodiscard]] const std::string& GetColor      () const { return color_;        }

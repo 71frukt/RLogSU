@@ -1,38 +1,28 @@
 cmake_minimum_required(VERSION 3.12)
 project(RLogSU LANGUAGES CXX)
 
-set(CMAKE_EXPORT_COMPILE_COMMANDS ON) # to generate compile_commands.json
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
-#--- GET LOG DIR --------------------------------------------------------
-if(NOT DEFINED LOG_DIR)
-    set(LOG_DIR ${CMAKE_CURRENT_SOURCE_DIR}/log)
-else()
-endif()
-
-file(MAKE_DIRECTORY ${LOG_DIR})
-message(STATUS "${PROJECT_NAME}: folder newed")
-#------------------------------------------------------------------------
-
 find_package(fmt REQUIRED)
 
+add_library(${PROJECT_NAME} STATIC)
 
-add_library(${PROJECT_NAME} STATIC
-    src/logger.cpp
-    src/graph.cpp
-    # main.cpp/
+target_sources(${PROJECT_NAME} PRIVATE
+    $<$<CONFIG:RELEASE>:${CMAKE_CURRENT_SOURCE_DIR}/src/logger.cpp>
+    $<$<CONFIG:RELEASE>:${CMAKE_CURRENT_SOURCE_DIR}/src/graph.cpp>
 )
 
-target_include_directories(${PROJECT_NAME} PUBLIC
-    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
-    $<INSTALL_INTERFACE:include>
+target_include_directories(${PROJECT_NAME}
+    PUBLIC
+        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/lib>
+        $<INSTALL_INTERFACE:include>
 )
 
 target_link_libraries(${PROJECT_NAME} PRIVATE 
     fmt::fmt
 )
-
-target_compile_definitions(${PROJECT_NAME} PRIVATE MODULE_NAME="${PROJECT_NAME}")
