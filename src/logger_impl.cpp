@@ -143,8 +143,8 @@ void Logger::ColoredLog(LogLevel log_level, const std::string text, const std::s
     // break;
 
     case LogLevel::EXCEPT_RUNTIME:
-                      std::cerr << BaseTabsStr() << Console::ColoredStr(Console::MAGENTA, "[EXCEPTION]  ") << (text.empty() ? "" : (Console::ColoredStr(Console::RED, "runtime_error: ") + "'" + Console::ColoredStr(Console::MAGENTA, text) + "'"))  << std::endl;
-        RLSU_ON_DEBUG(logfile_  << BaseTabsStr() << Html   ::ColoredStr(Html   ::MAGENTA, "[EXCEPTION]  ") << (text.empty() ? "" : (Html   ::ColoredStr(Html   ::RED, "runtime_error: ") + "'" +    Html::ColoredStr(Html   ::MAGENTA, text) + "'"))  << std::endl;)
+                      std::cerr << BaseTabsStr() << Console::ColoredStr(Console::MAGENTA, "[EXCEPTION]  ") << Console::ColoredStr(Console::WHITE, text) << std::endl;
+        RLSU_ON_DEBUG(logfile_  << BaseTabsStr() << Html   ::ColoredStr(Html   ::MAGENTA, "[EXCEPTION]  ") <<    Html::ColoredStr(Html   ::WHITE, text) << std::endl;)
         break;
     
     default:

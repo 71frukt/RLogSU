@@ -15,7 +15,7 @@ template <StringConstructibleException ExceptT>
 inline void RLSU_THROW(std::string message, std::source_location loc = std::source_location::current())
 {
     std::string code_place = fmt::format("{}:{}({})", RLSU::Log::GetRelativePath(loc.file_name()), loc.line(), loc.function_name());
-    throw ExceptT(code_place + "  " + message);
+    throw ExceptT(code_place + "\n" + message);
 }
 
 
