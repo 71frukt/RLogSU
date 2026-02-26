@@ -19,7 +19,7 @@ inline void RLSU_THROW(std::string message, std::source_location loc = std::sour
 }
 
 
-inline void RLSU_LOG_RUNTIME_ERR(const std::exception e)
+inline void RLSU_LOG_RUNTIME_ERR(const std::exception& e)
 {
     RLSU::Log::UnitLogger.ColoredLog(RLSU::Log::Logger::LogLevel::EXCEPT_RUNTIME, e.what(), "");    // code_place is already in what()
 }
