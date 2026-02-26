@@ -1,5 +1,28 @@
+#pragma once
+
+#include <exception>
+#include <source_location>
+#include <string>
+
 #include "RLogSU/logger_impl.hpp"
 
+template <typename T>
+concept StringConstructibleException = 
+    std::derived_from<T, std::exception> &&
+    std::constructible_from<T, std::string>;
+
+template <StringConstructibleException ExceptT>
+inline void RLSU_THROW(std::string message, std::source_location loc = std::source_location::current())
+{
+    std::string code_place = fmt::format("{}:{}({})", "file", loc.line(), loc.function_name()); // Упрощено для примера
+    throw ExceptT(code_place + "  " + message);
+}
+
+
+inline void RLSU_LOG_RUNTIME_ERR(const std::exception e)
+{
+    RLSU::Log::UnitLogger.ColoredLog(RLSU::Log::Logger::LogLevel::EXCEPT_RUNTIME, e.what(), "");    // code_place is already in what()
+}
 
 #define     RLSU_WARNING( std_format_, ...) do {RLSU::Log::UnitLogger.Log(__FILE__, __LINE__, __func__, RLSU::Log::Logger::WARNING, std_format_, ##__VA_ARGS__);} while(0)
 #define     RLSU_ERROR(   std_format_, ...) do {RLSU::Log::UnitLogger.Log(__FILE__, __LINE__, __func__, RLSU::Log::Logger::ERROR  , std_format_, ##__VA_ARGS__);} while(0)

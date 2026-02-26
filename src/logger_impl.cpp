@@ -65,7 +65,7 @@ void Logger::InitializeLogFolder_()
     if (!logfile_)
         throw std::runtime_error("Faild opening of logfile");
 
-    logfile_ << "<html>                                                                                               \n"
+    logfile_ << "<html>                                                                                                     \n"
              << "\t<head>                                                                                                   \n"
              << "\t<title>" << logfile_name_ << "</title>                                                                   \n"
              << "\t<link rel=\"stylesheet\" href=\"https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css\"> \n"
@@ -102,20 +102,20 @@ Logger::~Logger()
 
 
 
-void Logger::ColoredLog_(LogLevel log_level, const std::string text, const std::string code_place)
+void Logger::ColoredLog(LogLevel log_level, const std::string text, const std::string code_place)
 {
     using namespace Detail::Appearance;
 
     switch (log_level)
     {
     case LogLevel::INFO:
-        RLSU_ON_DEBUG(std::cerr << BaseTabsStr() << Console::ColoredStr(Console::CYAN,    "[INFO]    ") << text << std::endl;)
-        RLSU_ON_DEBUG(logfile_  << BaseTabsStr() << Html   ::ColoredStr(Html   ::CYAN,    "[INFO]    ") << text << std::endl;)
+        RLSU_ON_DEBUG(std::cerr << BaseTabsStr() << Console::ColoredStr(Console::CYAN,    "[INFO]       ") << text << std::endl;)
+        RLSU_ON_DEBUG(logfile_  << BaseTabsStr() << Html   ::ColoredStr(Html   ::CYAN,    "[INFO]       ") << text << std::endl;)
         break;
 
     case LogLevel::MESSAGE:
-                      std::cerr << BaseTabsStr() << Console::ColoredStr(Console::CYAN,    "[MESSAGE] ") << Console::ColoredFormatedCodePlace(code_place) << Console::ColoredStr(Console::CYAN, text) << std::endl;
-        RLSU_ON_DEBUG(logfile_  << BaseTabsStr() << Html   ::ColoredStr(Html   ::CYAN,    "[MESSAGE] ") << Html   ::ColoredFormatedCodePlace(code_place) << Html   ::ColoredStr(Html   ::CYAN, text) << std::endl;)
+                      std::cerr << BaseTabsStr() << Console::ColoredStr(Console::CYAN,    "[MESSAGE]    ") << Console::ColoredFormatedCodePlace(code_place) << Console::ColoredStr(Console::CYAN, text) << std::endl;
+        RLSU_ON_DEBUG(logfile_  << BaseTabsStr() << Html   ::ColoredStr(Html   ::CYAN,    "[MESSAGE]    ") << Html   ::ColoredFormatedCodePlace(code_place) << Html   ::ColoredStr(Html   ::CYAN, text) << std::endl;)
         break;
 
     case LogLevel::LOG:
@@ -123,28 +123,28 @@ void Logger::ColoredLog_(LogLevel log_level, const std::string text, const std::
         break;
 
     case LogLevel::DUMP:
-        RLSU_ON_DEBUG(std::cerr << BaseTabsStr() << Console::ColoredStr(Console::SKYBLUE, "[DUMP]    ") << Console::ColoredFormatedCodePlace(code_place) << text;)
-        RLSU_ON_DEBUG(logfile_  << BaseTabsStr() << Html   ::ColoredStr(Html   ::SKYBLUE, "[DUMP]    ") << Html   ::ColoredFormatedCodePlace(code_place) << text;)
+        RLSU_ON_DEBUG(std::cerr << BaseTabsStr() << Console::ColoredStr(Console::SKYBLUE, "[DUMP]       ") << Console::ColoredFormatedCodePlace(code_place) << text;)
+        RLSU_ON_DEBUG(logfile_  << BaseTabsStr() << Html   ::ColoredStr(Html   ::SKYBLUE, "[DUMP]       ") << Html   ::ColoredFormatedCodePlace(code_place) << text;)
         break;
 
     case LogLevel::WARNING:
-                      std::cerr << BaseTabsStr() << Console::ColoredStr(Console::YELLOW,  "[WARNING] ") << Console::ColoredFormatedCodePlace(code_place) << Console::ColoredStr(Console::YELLOW, text) << std::endl;
-        RLSU_ON_DEBUG(logfile_  << BaseTabsStr() << Html   ::ColoredStr(Html   ::YELLOW,  "[WARNING] ") << Html   ::ColoredFormatedCodePlace(code_place) << Html   ::ColoredStr(Html   ::YELLOW, text) << std::endl;)
+                      std::cerr << BaseTabsStr() << Console::ColoredStr(Console::YELLOW,  "[WARNING]    ") << Console::ColoredFormatedCodePlace(code_place) << Console::ColoredStr(Console::YELLOW, text) << std::endl;
+        RLSU_ON_DEBUG(logfile_  << BaseTabsStr() << Html   ::ColoredStr(Html   ::YELLOW,  "[WARNING]    ") << Html   ::ColoredFormatedCodePlace(code_place) << Html   ::ColoredStr(Html   ::YELLOW, text) << std::endl;)
         break;
 
     case LogLevel::ERROR:
-                      std::cerr << BaseTabsStr() << Console::ColoredStr(Console::RED,     "[ERROR]   ") << Console::ColoredFormatedCodePlace(code_place) << Console::ColoredStr(Console::RED,   text) << std::endl;
-        RLSU_ON_DEBUG(logfile_  << BaseTabsStr() << Html   ::ColoredStr(Html   ::RED,     "[ERROR]   ") << Html   ::ColoredFormatedCodePlace(code_place) << Html   ::ColoredStr(Html   ::RED,   text) << std::endl;)
+                      std::cerr << BaseTabsStr() << Console::ColoredStr(Console::RED,     "[ERROR]      ") << Console::ColoredFormatedCodePlace(code_place) << Console::ColoredStr(Console::RED,   text) << std::endl;
+        RLSU_ON_DEBUG(logfile_  << BaseTabsStr() << Html   ::ColoredStr(Html   ::RED,     "[ERROR]      ") << Html   ::ColoredFormatedCodePlace(code_place) << Html   ::ColoredStr(Html   ::RED,   text) << std::endl;)
         break;
 
-    case LogLevel::VERIFY:
-                      std::cerr << BaseTabsStr() << Console::ColoredStr(Console::MAGENTA, "[VERIFY]  ") << Console::ColoredFormatedCodePlace(code_place) << (text.empty() ? "" : (Console::ColoredStr(Console::RED, "failed condition: ") + "'" + Console::ColoredStr(Console::MAGENTA, text) + "'"))  << std::endl;
-        RLSU_ON_DEBUG(logfile_  << BaseTabsStr() << Html   ::ColoredStr(Html   ::MAGENTA, "[VERIFY]  ") << Html   ::ColoredFormatedCodePlace(code_place) << (text.empty() ? "" : (Html   ::ColoredStr(Html   ::RED, "failed condition: ") + "'" +    Html::ColoredStr(Html   ::MAGENTA, text) + "'"))  << std::endl;)
-    break;
+    // case LogLevel::VERIFY:
+    //                   std::cerr << BaseTabsStr() << Console::ColoredStr(Console::MAGENTA, "[VERIFY]  ") << Console::ColoredFormatedCodePlace(code_place) << (text.empty() ? "" : (Console::ColoredStr(Console::RED, "failed condition: ") + "'" + Console::ColoredStr(Console::MAGENTA, text) + "'"))  << std::endl;
+    //     RLSU_ON_DEBUG(logfile_  << BaseTabsStr() << Html   ::ColoredStr(Html   ::MAGENTA, "[VERIFY]  ") << Html   ::ColoredFormatedCodePlace(code_place) << (text.empty() ? "" : (Html   ::ColoredStr(Html   ::RED, "failed condition: ") + "'" +    Html::ColoredStr(Html   ::MAGENTA, text) + "'"))  << std::endl;)
+    // break;
 
-    case LogLevel::ASSERT:
-                      std::cerr << BaseTabsStr() << Console::ColoredStr(Console::MAGENTA, "[ASSERT]  ") << Console::ColoredFormatedCodePlace(code_place) << (text.empty() ? "" : (Console::ColoredStr(Console::RED, "failed condition: ") + "'" + Console::ColoredStr(Console::MAGENTA, text) + "'"))  << std::endl;
-        RLSU_ON_DEBUG(logfile_  << BaseTabsStr() << Html   ::ColoredStr(Html   ::MAGENTA, "[ASSERT]  ") << Html   ::ColoredFormatedCodePlace(code_place) << (text.empty() ? "" : (Html   ::ColoredStr(Html   ::RED, "failed condition: ") + "'" +    Html::ColoredStr(Html   ::MAGENTA, text) + "'"))  << std::endl;)
+    case LogLevel::EXCEPT_RUNTIME:
+                      std::cerr << BaseTabsStr() << Console::ColoredStr(Console::MAGENTA, "[EXCEPTION]  ") << (text.empty() ? "" : (Console::ColoredStr(Console::RED, "runtime_error: ") + "'" + Console::ColoredStr(Console::MAGENTA, text) + "'"))  << std::endl;
+        RLSU_ON_DEBUG(logfile_  << BaseTabsStr() << Html   ::ColoredStr(Html   ::MAGENTA, "[EXCEPTION]  ") << (text.empty() ? "" : (Html   ::ColoredStr(Html   ::RED, "runtime_error: ") + "'" +    Html::ColoredStr(Html   ::MAGENTA, text) + "'"))  << std::endl;)
         break;
     
     default:

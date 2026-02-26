@@ -29,14 +29,14 @@ public:
     ~Logger();
 
     enum LogLevel {
-        INFO,       // console on_debug
-        MESSAGE,    // console always   + logfile on_debug
-        LOG,        // console always   + logfile on_debug
-        DUMP,       // console on_debug + logfile on_debug 
-        WARNING,    // console always   + logfile on_debug
-        ERROR,      // console always   + logfile on_debug
-        VERIFY,     // console always   + logfile on_debug
-        ASSERT      // console always   + logfile on_debug
+        INFO,               // console on_debug
+        MESSAGE,            // console always   + logfile on_debug
+        LOG,                // console always   + logfile on_debug
+        DUMP,               // console on_debug + logfile on_debug 
+        WARNING,            // console always   + logfile on_debug
+        ERROR,              // console always   + logfile on_debug
+        EXCEPT_RUNTIME      // console always   + logfile on_debug
+        // VERIFY,     // console always   + logfile on_debug
     };
 
     template<typename... Args>
@@ -54,8 +54,31 @@ public:
 
         std::lock_guard<std::mutex> lock(write_mutex_);
 
-        ColoredLog_(log_level, message, code_place);
+        ColoredLog(log_level, message, code_place);
     }
+
+    void ColoredLog(LogLevel log_level, const std::string text, const std::string code_place_str);
+
+    // template<typename ExceptionType>
+    // [[noreturn]] void Throw(const char *const file, const int line, const char *const func, const std::string& format, Args&&... args)
+    // {
+    //     assert(file);
+    //     assert(func);
+
+    //     #ifndef NDEBUG
+    //         std::call_once(logfolder_init_flag_, &Logger::InitializeLogFolder_, this);
+    //     #endif
+    
+    //     std::string message    = fmt::vformat(format, fmt::make_format_args(std::forward<Args>(args)...));
+    //     std::string code_place = fmt::format("{}:{}({})", GetRelativePath(file), line, func);
+
+
+
+    //     std::string exeption_text = 
+
+    //     throw ExceptionType(message);
+
+    // }
 
     #ifndef NDEBUG
         void        SetLogSpace(const std::string& path);
@@ -103,7 +126,6 @@ private:
         bool LogFolderIsInited_();
     #endif // !NDEBUG
 
-    void ColoredLog_(LogLevel log_level, const std::string text, const std::string code_place_str);
 };
 
 
