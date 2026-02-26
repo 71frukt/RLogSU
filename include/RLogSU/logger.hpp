@@ -15,14 +15,10 @@ template <StringConstructibleException ExceptT>
 inline void RLSU_THROW(std::string message, std::source_location loc = std::source_location::current())
 {
     std::string code_place = fmt::format("{}:{}({})", RLSU::Log::GetRelativePath(loc.file_name()), loc.line(), loc.function_name());
-    throw ExceptT(code_place + "\n" + message);
+    throw ExceptT("\n[runtime err][" + code_place + "] " + message);
 }
 
-
-inline void RLSU_LOG_RUNTIME_ERR(const std::exception& e)
-{
-    RLSU::Log::UnitLogger.ColoredLog(RLSU::Log::Logger::LogLevel::EXCEPT_RUNTIME, e.what(), "");    // code_place is already in what()
-}
+#define RLSU_LOG_RUNTIME_ERR(exception) do {RLSU::Log::UnitLogger.Log(__FILE__, __LINE__, __func__, RLSU::Log::Logger::EXCEPT_RUNTIME, e.what());} while(0)
 
 #define     RLSU_WARNING( std_format_, ...) do {RLSU::Log::UnitLogger.Log(__FILE__, __LINE__, __func__, RLSU::Log::Logger::WARNING, std_format_, ##__VA_ARGS__);} while(0)
 #define     RLSU_ERROR(   std_format_, ...) do {RLSU::Log::UnitLogger.Log(__FILE__, __LINE__, __func__, RLSU::Log::Logger::ERROR  , std_format_, ##__VA_ARGS__);} while(0)
@@ -48,7 +44,7 @@ inline void RLSU_LOG_RUNTIME_ERR(const std::exception& e)
     #define RLSU_DUMP(_DumpFunc, ...)
 #endif
 
-
+#define RLSU_SET_LOGSPACE(path_str) do {RLSU::Log::UnitLogger.SetLogSpace(path_str); } while(0);
 
 #define RLSU_BASETAB_INCREACE RLSU::Log::UnitLogger.BaseTabsNum++
 #define RLSU_BASETAB_DECREACE RLSU::Log::UnitLogger.BaseTabsNum--

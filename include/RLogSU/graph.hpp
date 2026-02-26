@@ -31,7 +31,7 @@ public:
     class Edge;
 
     void AddNode(Node& new_node);
-    void AddNode(void* node_ptr, std::string label = "no-label", Colors::Color color = Colors::AQUAMARINE, Colors::Color border_color = Colors::AQUA, Colors::Color fontcolor = Colors::BLACK, Shapes::NodeShape shape = Shapes::ELLIPSE);
+    void AddNode(const void* node_ptr, std::string label = "no-label", Colors::Color color = Colors::AQUAMARINE, Colors::Color border_color = Colors::AQUA, Colors::Color fontcolor = Colors::BLACK, Shapes::NodeShape shape = Shapes::ELLIPSE);
 
     void AddEdge(const Edge& new_edge);
     void AddEdge(const void* node_origin_ptr, const void* node_dest_ptr, double weight = 1.0);
@@ -50,18 +50,19 @@ private:
 
     static constexpr std::string NodeNamePrefix  = "node_";
     static constexpr std::string GraphNamePrefix = "graph_";
-    static constexpr std::string GraphsFolder    = "graphs";
+    static constexpr std::string SvgGraphsFolder = "svg";
+    static constexpr std::string PngGraphsFolder = "png";
     static constexpr std::string TmpDotFileName  = "tmp_cfg.dot";
     
     std::vector<const void*> nodes_ptrs;
 
     std::ofstream dot_file;
 
-    [[nodiscard]] const std::string GetCurGraphPath()
-    {
-        return   Log::UnitLogger.GetLogsFolder() + "/" + GraphsFolder + "/"
-               + GraphNamePrefix + std::to_string(DrawnGraphsNum) + ".svg";
-    }
+    // [[nodiscard]] const std::string GetCurGraphPath()
+    // {
+    //     return   Log::UnitLogger.GetLogsFolder() + "/" + GraphsFolder + "/"
+    //            + GraphNamePrefix + std::to_string(DrawnGraphsNum) + ".svg";
+    // }
 
     bool ContainsNode(const void* node_ptr) const;
 

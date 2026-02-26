@@ -49,17 +49,17 @@ bool Logger::LogFolderIsInited_()
 
 void Logger::InitializeLogFolder_()
 {
-    log_folder_ = GetLogSpace() + "/" + NowTimeToString();
+    log_folder_ = NowTimeToString();
 
     std::error_code ec;
-    std::filesystem::create_directories(log_folder_, ec);
+    std::filesystem::create_directories(GetLogSpace() + "/" + log_folder_, ec);
 
     if (ec)
     {
         throw std::runtime_error("Couldn't create a logfile directory");
     }
 
-    logfile_.open(log_folder_ + "/" + std::string(logfile_name_));
+    logfile_.open(GetLogSpace() + "/" + log_folder_ + "/" + std::string(logfile_name_));
     logfile_ << std::unitbuf;
 
     if (!logfile_)
@@ -79,7 +79,7 @@ void Logger::InitializeLogFolder_()
              << Detail::Appearance::Html::COLORS_HTML_PREAMBLE() << Detail::Appearance::Html::TABLE_HTML_COLOR()
              << "\t</style>                                                                                                 \n";
 
-    std::cerr << "Opened Logfile" << std::endl;
+    // std::cerr << "Opened Logfile" << std::endl;
 
     logfolder_is_initialized_.store(true, std::memory_order_release);
 }
@@ -95,7 +95,7 @@ Logger::~Logger()
                     "</html>";
 
         logfile_.close();
-        std::cerr << "Closed Logfile" << std::endl;
+        // std::cerr << "Closed Logfile" << std::endl;
     }
 #endif // !NDEBUG
 }
@@ -137,14 +137,9 @@ void Logger::ColoredLog(LogLevel log_level, const std::string text, const std::s
         RLSU_ON_DEBUG(logfile_  << BaseTabsStr() << Html   ::ColoredStr(Html   ::RED,     "[ERROR]      ") << Html   ::ColoredFormatedCodePlace(code_place) << Html   ::ColoredStr(Html   ::RED,   text) << std::endl;)
         break;
 
-    // case LogLevel::VERIFY:
-    //                   std::cerr << BaseTabsStr() << Console::ColoredStr(Console::MAGENTA, "[VERIFY]  ") << Console::ColoredFormatedCodePlace(code_place) << (text.empty() ? "" : (Console::ColoredStr(Console::RED, "failed condition: ") + "'" + Console::ColoredStr(Console::MAGENTA, text) + "'"))  << std::endl;
-    //     RLSU_ON_DEBUG(logfile_  << BaseTabsStr() << Html   ::ColoredStr(Html   ::MAGENTA, "[VERIFY]  ") << Html   ::ColoredFormatedCodePlace(code_place) << (text.empty() ? "" : (Html   ::ColoredStr(Html   ::RED, "failed condition: ") + "'" +    Html::ColoredStr(Html   ::MAGENTA, text) + "'"))  << std::endl;)
-    // break;
-
     case LogLevel::EXCEPT_RUNTIME:
-                      std::cerr << BaseTabsStr() << Console::ColoredStr(Console::MAGENTA, "[EXCEPTION]  ") << Console::ColoredStr(Console::WHITE, text) << std::endl;
-        RLSU_ON_DEBUG(logfile_  << BaseTabsStr() << Html   ::ColoredStr(Html   ::MAGENTA, "[EXCEPTION]  ") <<    Html::ColoredStr(Html   ::WHITE, text) << std::endl;)
+                      std::cerr << BaseTabsStr() << Console::ColoredStr(Console::MAGENTA, "[EXCEPTION]  ") << Console::ColoredFormatedCodePlace(code_place) << Console::ColoredStr(Console::WHITE, text) << std::endl;
+        RLSU_ON_DEBUG(logfile_  << BaseTabsStr() << Html   ::ColoredStr(Html   ::MAGENTA, "[EXCEPTION]  ") << Html   ::ColoredFormatedCodePlace(code_place) <<    Html::ColoredStr(Html   ::WHITE, text) << std::endl;)
         break;
     
     default:

@@ -27,9 +27,11 @@ Graph::Graph(std::function<size_t(size_t)> SizeToWidth,
 {
     dot_file.open(TmpDotFileName);
 
-    std::filesystem::create_directory(Log::UnitLogger.GetLogsFolder() + "/" + GraphsFolder);
+    std::filesystem::create_directory(Log::UnitLogger.GetLogSpace() + "/" + Log::UnitLogger.GetLogsFolder() + "/" + PngGraphsFolder);
+    std::filesystem::create_directory(Log::UnitLogger.GetLogSpace() + "/" + Log::UnitLogger.GetLogsFolder() + "/" + SvgGraphsFolder);
 
     dot_file << "digraph G{                                           \n"
+             << "   rankdir=\"LR\"                                    \n"
              << "   bgcolor = \""     << BACKGROWND_COLOR    <<    "\"\n"
              << "   edge [color = \"" << DEFAULT_EDGES_COLOR << "\"]; \n";
 }
@@ -37,7 +39,7 @@ Graph::Graph(std::function<size_t(size_t)> SizeToWidth,
 
 Graph::~Graph()
 {
-    // std::remove(TmpDotFileName.c_str()); // FIXME: uncomment
+    std::remove(TmpDotFileName.c_str());
 }
 
 void Graph::AddNode(Node& new_node)
@@ -56,7 +58,7 @@ void Graph::AddNode(Node& new_node)
              << "]" << std::endl;
 }
 
-void Graph::AddNode(void* node_ptr, std::string label, Colors::Color color, Colors::Color border_color, Colors::Color fontcolor, Shapes::NodeShape shape)
+void Graph::AddNode(const void* node_ptr, std::string label, Colors::Color color, Colors::Color border_color, Colors::Color fontcolor, Shapes::NodeShape shape)
 {
     Node new_node(node_ptr, label, color, border_color, fontcolor, shape);
     AddNode(new_node);
@@ -65,8 +67,8 @@ void Graph::AddNode(void* node_ptr, std::string label, Colors::Color color, Colo
 
 void Graph::AddEdge(const Edge& new_edge)
 {
-    assert(ContainsNode(new_edge.origin_ptr) && "mb forgot AddNode()?");
-    assert(ContainsNode(new_edge.dest_ptr)   && "mb forgot AddNode()?");
+    // assert(ContainsNode(new_edge.origin_ptr) && "mb forgot AddNode()?");
+    // assert(ContainsNode(new_edge.dest_ptr)   && "mb forgot AddNode()?");
 
     dot_file << NodeNamePrefix << new_edge.origin_ptr << "->"
              << NodeNamePrefix << new_edge.dest_ptr
@@ -108,15 +110,26 @@ void Graph::LogGraph()
     dot_file << "}\n";
     dot_file.close();
 
-    std::string command = "dot -Tpng " + TmpDotFileName + " -o "
-                        + Log::UnitLogger.GetLogsFolder() + "/" + GraphsFolder + "/"
-                        + GraphNamePrefix + std::to_string(DrawnGraphsNum) + ".png";
+    const std::string logfolder = Log::UnitLogger.GetLogSpace() + "/" + Log::UnitLogger.GetLogsFolder();
 
-    if (system(command.c_str()) != 0)
-        std::cerr << "Error in command.c_str()";
+    std::string svg_graph_path = logfolder + "/" + SvgGraphsFolder + "/" 
+                               + GraphNamePrefix + std::to_string(DrawnGraphsNum) + ".svg";
+
+    std::string png_graph_path = logfolder + "/" + PngGraphsFolder + "/" 
+                               + GraphNamePrefix + std::to_string(DrawnGraphsNum) + ".png";
+
+    std::string command_create_png = "dot -Tpng " + TmpDotFileName + " -o " + svg_graph_path;
+    std::string command_create_svg = "dot -Tpng " + TmpDotFileName + " -o " + png_graph_path;
+    
+
+    if (system(command_create_png.c_str()) != 0)
+        std::cerr << "Error in command_create_png.c_str()";
+
+    if (system(command_create_svg.c_str()) != 0)
+        std::cerr << "Error in command_create_svg.c_str()";
 
     RLSU_LOG("<img src={} width=\"{}%\" style=\"margin-left: 3%\">\n"
-            , GraphsFolder + "/" + GraphNamePrefix + std::to_string(DrawnGraphsNum) + ".png"
+            , PngGraphsFolder + "/" + GraphNamePrefix + std::to_string(DrawnGraphsNum) + ".png"
             , std::min(((double) SizeToWidth_(nodes_ptrs.size()) * 8.0), 95.0));
     DrawnGraphsNum++;
 }
