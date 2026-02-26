@@ -31,7 +31,7 @@ Graph::Graph(std::function<size_t(size_t)> SizeToWidth,
     std::filesystem::create_directory(Log::UnitLogger.GetLogSpace() + "/" + Log::UnitLogger.GetLogsFolder() + "/" + SvgGraphsFolder);
 
     dot_file << "digraph G{                                           \n"
-             << "   rankdir=\"LR\"                                    \n"
+             << "   rankdir=\"HR\"                                    \n"
              << "   bgcolor = \""     << BACKGROWND_COLOR    <<    "\"\n"
              << "   edge [color = \"" << DEFAULT_EDGES_COLOR << "\"]; \n";
 }
@@ -73,34 +73,61 @@ void Graph::AddEdge(const Edge& new_edge)
     dot_file << NodeNamePrefix << new_edge.origin_ptr << "->"
              << NodeNamePrefix << new_edge.dest_ptr
              << " ["
+             << "dir=\"both\""
              << "label=\""     << new_edge.label     << "\", "
              << "color=\""     << new_edge.color     << "\", "
              << "fontcolor=\"" << new_edge.fontcolor << "\", "
+             << "arrowhead=\"" << new_edge.arrowhead << "\", "
+             << "arrowtail=\"" << new_edge.arrowtail << "\", "
              << "weight=\""    << new_edge.weight    << "\"  "
              << "]\n";
 }
 
 void Graph::AddEdge(const void* node_origin_ptr, const void* node_dest_ptr, const std::string& label, const Colors::Color& color, double weight)
 {
-    Graph::Edge new_edge(node_origin_ptr, node_dest_ptr, label, color, DEFAULT_EDGES_COLOR, weight);
+    Graph::Edge new_edge{.origin_ptr = node_origin_ptr    ,
+                         .dest_ptr   = node_dest_ptr      ,
+                         .label      = label              ,
+                         .color      = color              ,
+                         .fontcolor  = DEFAULT_EDGES_COLOR, 
+                         .weight     = weight};
+
     AddEdge(new_edge);
 }
 
 void Graph::AddEdge(const void* node_origin_ptr, const void* node_dest_ptr, const Colors::Color& color, double weight)
 {
-    Graph::Edge new_edge(node_origin_ptr, node_dest_ptr, "", color, DEFAULT_EDGES_COLOR, weight);
+    Graph::Edge new_edge{.origin_ptr = node_origin_ptr    ,
+                         .dest_ptr   = node_dest_ptr      ,
+                         .label      = ""                 ,
+                         .color      = color              ,
+                         .fontcolor  = DEFAULT_EDGES_COLOR, 
+                         .weight     = weight};
+
     AddEdge(new_edge);
 }
 
 void Graph::AddEdge(const void* node_origin_ptr, const void* node_dest_ptr, const std::string& label, double weight)
 {
-    Graph::Edge new_edge(node_origin_ptr, node_dest_ptr, label, DEFAULT_EDGES_COLOR, DEFAULT_EDGES_COLOR, weight);
+    Graph::Edge new_edge{.origin_ptr = node_origin_ptr    ,
+                         .dest_ptr   = node_dest_ptr      ,
+                         .label      = label              ,
+                         .color      = DEFAULT_EDGES_COLOR,
+                         .fontcolor  = DEFAULT_EDGES_COLOR, 
+                         .weight     = weight};
+
     AddEdge(new_edge);
 }
 
 void Graph::AddEdge(const void* node_origin_ptr, const void* node_dest_ptr, double weight)
 {
-    Graph::Edge new_edge(node_origin_ptr, node_dest_ptr, "", DEFAULT_EDGES_COLOR, DEFAULT_EDGES_COLOR, weight);
+    Graph::Edge new_edge{.origin_ptr = node_origin_ptr    ,
+                         .dest_ptr   = node_dest_ptr      ,
+                         .label      = ""                 ,
+                         .color      = DEFAULT_EDGES_COLOR,
+                         .fontcolor  = DEFAULT_EDGES_COLOR, 
+                         .weight     = weight};
+
     AddEdge(new_edge);
 }
 
@@ -130,7 +157,7 @@ void Graph::LogGraph()
 
     RLSU_LOG("<img src={} width=\"{}%\" style=\"margin-left: 3%\">\n"
             , PngGraphsFolder + "/" + GraphNamePrefix + std::to_string(DrawnGraphsNum) + ".png"
-            , std::min(((double) SizeToWidth_(nodes_ptrs.size()) * 8.0), 95.0));
+            , std::min(((double) SizeToWidth_(nodes_ptrs.size()) * 10.0), 95.0));
     DrawnGraphsNum++;
 }
 

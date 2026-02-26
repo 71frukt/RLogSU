@@ -31,7 +31,7 @@ public:
     class Edge;
 
     void AddNode(Node& new_node);
-    void AddNode(const void* node_ptr, std::string label = "no-label", Colors::Color color = Colors::AQUAMARINE, Colors::Color border_color = Colors::AQUA, Colors::Color fontcolor = Colors::BLACK, Shapes::NodeShape shape = Shapes::ELLIPSE);
+    void AddNode(const void* node_ptr, std::string label = "no-label", Colors::Color color = Colors::AQUAMARINE, Colors::Color border_color = Colors::AQUA, Colors::Color fontcolor = Colors::BLACK, Shapes::NodeShape shape = Shapes::NODE_ELLIPSE);
 
     void AddEdge(const Edge& new_edge);
     void AddEdge(const void* node_origin_ptr, const void* node_dest_ptr, double weight = 1.0);
@@ -78,7 +78,7 @@ public:
     , color_        (Colors::AQUAMARINE)
     , border_color_ (Colors::AQUA)
     , fontcolor_    (Colors::BLACK)
-    , shape_        (Shapes::ELLIPSE)
+    , shape_        (Shapes::NODE_ELLIPSE)
     {}
 
     Node(const void* owner_ptr, const Colors::Color& color, const Shapes::NodeShape& shape)
@@ -133,27 +133,18 @@ private:
 };
 
 
-class Graph::Edge
+struct Graph::Edge
 {
-public:
-    Edge(const void* node_origin_ptr, const void* node_dest_ptr, const std::string& edge_label = "", const Colors::Color& edge_color = Colors::AQUA, const Colors::Color& edge_fontcolor = Colors::AQUA, double edge_weight = 1.0)
-        : origin_ptr (node_origin_ptr)
-        , dest_ptr   (node_dest_ptr)
-        , label      (edge_label)
-        , color      (edge_color)
-        , fontcolor  (edge_fontcolor)
-        , weight     (edge_weight)
-    {}
+    const void*          origin_ptr;
+    const void*          dest_ptr;
 
-    Edge& operator=(const Edge&) = delete;
-    Edge(const Edge&)            = delete;
-
-    const void* origin_ptr;
-    const void* dest_ptr;
-    std::string   label;
-    Colors::Color color;
-    Colors::Color fontcolor;
-    double        weight;
+    std::string          label     = "";
+    Colors::Color        color     = Colors::AQUA;
+    Colors::Color        fontcolor = Colors::AQUA;
+    Shapes::EdgeEndShape arrowhead = Shapes::EDGE_END_NORMAL;
+    Shapes::EdgeEndShape arrowtail = Shapes::EDGE_END_NONE;
+    
+    double               weight    = 1.0;
 };
 
 } // namespace RLSU::Graphics

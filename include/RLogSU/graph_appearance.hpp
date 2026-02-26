@@ -12,6 +12,8 @@ public:
     explicit Color(const char* str)        : std::string(str)         {}
     explicit Color(const std::string& str) : std::string(str)            {}
     explicit Color(std::string&& str)      : std::string(std::move(str)) {}
+
+    virtual ~Color() = default;
 };
 
 const Color BLACK         = Color("black"        );
@@ -45,15 +47,31 @@ public:
     explicit NodeShape(const char* str)        : std::string(str)         {}
     explicit NodeShape(const std::string& str) : std::string(str)            {}
     explicit NodeShape(std::string&& str)      : std::string(std::move(str)) {}
+
+    virtual ~NodeShape() = default;
 };
 
-const NodeShape ELLIPSE  = NodeShape("ellipse" );          // default for nodes
-const NodeShape CIRCLE   = NodeShape("circle"  );
-const NodeShape BOX      = NodeShape("box"     );
-const NodeShape BOX3D    = NodeShape("box3d"   );
-const NodeShape TRIANGLE = NodeShape("triangle");
-const NodeShape DIAMOND  = NodeShape("diamond" );
+const NodeShape NODE_ELLIPSE  = NodeShape("ellipse" );          // default for nodes
+const NodeShape NODE_CIRCLE   = NodeShape("circle"  );
+const NodeShape NODE_BOX      = NodeShape("box"     );
+const NodeShape NODE_BOX3D    = NodeShape("box3d"   );
+const NodeShape NODE_TRIANGLE = NodeShape("triangle");
+const NodeShape NODE_DIAMOND  = NodeShape("diamond" );
+const NodeShape NODE_RECORD   = NodeShape("record"  );
+
+
+class EdgeEndShape : public std::string
+{
+public:
+    explicit EdgeEndShape(const char* str)        : std::string(str)         {}
+    explicit EdgeEndShape(const std::string& str) : std::string(str)            {}
+    explicit EdgeEndShape(std::string&& str)      : std::string(std::move(str)) {}
+};
+
+const EdgeEndShape EDGE_END_NORMAL = EdgeEndShape("normal");       // default for arrowtails
+const EdgeEndShape EDGE_END_NONE   = EdgeEndShape("none"  );       // default for arrowheads
+const EdgeEndShape EDGE_END_DOT    = EdgeEndShape("dot"   );
+
 
 } // namespace Shapes
-
 } // namespace RLSU::Graphics
