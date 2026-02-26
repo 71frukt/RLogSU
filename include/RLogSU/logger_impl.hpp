@@ -59,27 +59,6 @@ public:
 
     void ColoredLog(LogLevel log_level, const std::string text, const std::string code_place_str);
 
-    // template<typename ExceptionType>
-    // [[noreturn]] void Throw(const char *const file, const int line, const char *const func, const std::string& format, Args&&... args)
-    // {
-    //     assert(file);
-    //     assert(func);
-
-    //     #ifndef NDEBUG
-    //         std::call_once(logfolder_init_flag_, &Logger::InitializeLogFolder_, this);
-    //     #endif
-    
-    //     std::string message    = fmt::vformat(format, fmt::make_format_args(std::forward<Args>(args)...));
-    //     std::string code_place = fmt::format("{}:{}({})", GetRelativePath(file), line, func);
-
-
-
-    //     std::string exeption_text = 
-
-    //     throw ExceptionType(message);
-
-    // }
-
     #ifndef NDEBUG
         void        SetLogSpace(const std::string& path);
         std::string GetLogSpace();
@@ -89,6 +68,7 @@ public:
             std::call_once(logfolder_init_flag_, &Logger::InitializeLogFolder_, this);
             return log_folder_;
         }
+
     #endif
 
     size_t BaseTabsNum = 0;
@@ -118,8 +98,7 @@ private:
         std::string       log_space_ = "logs";
         std::mutex        log_space_mutex_;
 
-        std::string       log_folder_ = "logs/hz_data";
-
+        std::string       log_folder_ = "hz_logs";
 
 
         void InitializeLogFolder_();
