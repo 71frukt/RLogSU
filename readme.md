@@ -17,8 +17,6 @@ sudo apt install libfmt-dev
 ## Пример работы
 
 ```C++
-#include <cstddef>
-#include <cstdio>
 #include <stdexcept>
 #include <string>
 #include <vector>
