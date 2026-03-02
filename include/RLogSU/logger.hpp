@@ -37,14 +37,16 @@ inline void RLSU_THROW(std::string message, std::source_location loc = std::sour
         _DumpFuncCall;                                                                              \
     } while(0)
 
+    #define RLSU_SET_LOGSPACE(path_str) do {RLSU::Log::UnitLogger.SetLogSpace(path_str); } while(0)
+
 #else
     #define RLSU_INFO(    std_format_, ...)
     #define RLSU_MESSAGE( std_format_, ...)
     #define RLSU_LOG(     std_format_, ...)
     #define RLSU_DUMP(_DumpFunc, ...)
+    #define RLSU_SET_LOGSPACE(path_str)
 #endif
 
-#define RLSU_SET_LOGSPACE(path_str) do {RLSU::Log::UnitLogger.SetLogSpace(path_str); } while(0);
 
 #define RLSU_BASETAB_INCREACE RLSU::Log::UnitLogger.BaseTabsNum++
 #define RLSU_BASETAB_DECREACE RLSU::Log::UnitLogger.BaseTabsNum--
