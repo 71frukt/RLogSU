@@ -27,8 +27,8 @@ public:
 
     void operator=(const Graph& other) = delete;
 
-    class Node;
-    class Edge;
+    class  Node;
+    struct Edge;
 
     void AddNode(Node& new_node);
     void AddNode(const void* node_ptr, std::string label = "no-label", Colors::Color color = Colors::AQUAMARINE, Colors::Color border_color = Colors::AQUA, Colors::Color fontcolor = Colors::BLACK, Shapes::NodeShape shape = Shapes::NODE_ELLIPSE);
@@ -48,11 +48,11 @@ public:
 private:
     static size_t DrawnGraphsNum;
 
-    static constexpr std::string NodeNamePrefix  = "node_";
-    static constexpr std::string GraphNamePrefix = "graph_";
-    static constexpr std::string SvgGraphsFolder = "svg";
-    static constexpr std::string PngGraphsFolder = "png";
-    static constexpr std::string TmpDotFileName  = "tmp_cfg.dot";
+    static inline const std::string NodeNamePrefix  = "node_";
+    static inline const std::string GraphNamePrefix = "graph_";
+    static inline const std::string SvgGraphsFolder = "svg";
+    static inline const std::string PngGraphsFolder = "png";
+    static inline const std::string TmpDotFileName  = "tmp_cfg.dot";
     
     std::vector<const void*> nodes_ptrs;
 
