@@ -12,7 +12,7 @@ find_package(fmt REQUIRED)
 add_library(${PROJECT_NAME} STATIC)
 
 target_sources(${PROJECT_NAME} PRIVATE
-    $<$<CONFIG:DEBUG>:${CMAKE_CURRENT_SOURCE_DIR}/src/graph.cpp>
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/graph.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/logger_impl.cpp
 )
 

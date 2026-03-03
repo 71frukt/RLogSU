@@ -59,17 +59,14 @@ public:
 
     void ColoredLog(LogLevel log_level, const std::string text, const std::string code_place_str);
 
-    #ifndef NDEBUG
-        void        SetLogSpace(const std::string& path);
-        std::string GetLogSpace();
+    void        SetLogSpace(const std::string& path);
+    std::string GetLogSpace();
 
-        std::string GetLogsFolder()
-        {
-            std::call_once(logfolder_init_flag_, &Logger::InitializeLogFolder_, this);
-            return log_folder_;
-        }
-
-    #endif
+    std::string GetLogsFolder()
+    {
+        std::call_once(logfolder_init_flag_, &Logger::InitializeLogFolder_, this);
+        return log_folder_;
+    }
 
     size_t BaseTabsNum = 0;
 
@@ -86,25 +83,22 @@ private:
 
     std::mutex     write_mutex_;
 
-    #ifndef NDEBUG
     static constexpr std::string_view logfile_name_ = "Logfile.html";
         
-        std::ofstream logfile_;
+    std::ofstream logfile_;
 
-        std::once_flag logfolder_init_flag_;
+    std::once_flag logfolder_init_flag_;
 
-        std::atomic<bool> logfolder_is_initialized_ = false;
+    std::atomic<bool> logfolder_is_initialized_ = false;
 
-        std::string       log_space_ = "logs";
-        std::mutex        log_space_mutex_;
+    std::string       log_space_ = "logs";
+    std::mutex        log_space_mutex_;
 
-        std::string       log_folder_ = "hz_logs";
+    std::string       log_folder_ = "hz_logs";
 
 
-        void InitializeLogFolder_();
-        bool LogFolderIsInited_();
-    #endif // !NDEBUG
-
+    void InitializeLogFolder_();
+    bool LogFolderIsInited_();
 };
 
 

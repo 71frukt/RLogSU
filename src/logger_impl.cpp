@@ -15,8 +15,6 @@
 
 namespace RLSU::Log {
 
-#ifndef NDEBUG
-
 void Logger::SetLogSpace(const std::string& path)
 {
     if (logfolder_is_initialized_.load(std::memory_order_acquire))
@@ -83,7 +81,6 @@ void Logger::InitializeLogFolder_()
 
     logfolder_is_initialized_.store(true, std::memory_order_release);
 }
-#endif // !NDEBUG
 
 Logger::~Logger()
 {
