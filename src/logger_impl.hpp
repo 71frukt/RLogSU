@@ -35,8 +35,8 @@ public:
         DUMP,               // console on_debug + logfile on_debug 
         WARNING,            // console always   + logfile on_debug
         ERROR,              // console always   + logfile on_debug
+        ASSERT,             // console on_debug + logfile on_debug
         EXCEPT_RUNTIME      // console always   + logfile on_debug
-        // VERIFY,     // console always   + logfile on_debug
     };
 
     template<typename... Args>

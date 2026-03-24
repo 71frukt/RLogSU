@@ -1,7 +1,7 @@
 #pragma once
 
 #include "RLogSU/logger.hpp"
-#include "RLogSU/graph_appearance.hpp"
+#include "../../src/graph_appearance.hpp"
 #include <cmath>
 #include <cstddef>
 #include <fmt/core.h>

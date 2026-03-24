@@ -1,6 +1,6 @@
 #include "RLogSU/graph.hpp"
 #include "RLogSU/logger.hpp"
-#include "RLogSU/logger_impl.hpp"
+#include "logger_impl.hpp"
 
 #include <iostream>
 #include <cstddef>

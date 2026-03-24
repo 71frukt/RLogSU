@@ -1,4 +1,5 @@
-#include "RLogSU/logger_impl.hpp"
+#include "logger_impl.hpp"
+
 #include <cstdio>
 #include <iostream>
 #include <fstream>
@@ -9,7 +10,7 @@
 #include <filesystem>
 #include <fmt/chrono.h>
 
-#include "RLogSU/logger_appearance.hpp"
+#include "logger_appearance.hpp"
 #include "RLogSU/logger.hpp"
 
 
@@ -132,6 +133,11 @@ void Logger::ColoredLog(LogLevel log_level, const std::string text, const std::s
     case LogLevel::ERROR:
                       std::cerr << BaseTabsStr() << Console::ColoredStr(Console::RED,     "[ERROR]      ") << Console::ColoredFormatedCodePlace(code_place) << Console::ColoredStr(Console::RED,   text) << std::endl;
         RLSU_ON_DEBUG(logfile_  << BaseTabsStr() << Html   ::ColoredStr(Html   ::RED,     "[ERROR]      ") << Html   ::ColoredFormatedCodePlace(code_place) << Html   ::ColoredStr(Html   ::RED,   text) << std::endl;)
+        break;
+
+    case LogLevel::ASSERT:
+                      std::cerr << BaseTabsStr() << Console::ColoredStr(Console::RED,     "[ASSERT]     ") << Console::ColoredFormatedCodePlace(code_place) << Console::ColoredStr(Console::RED,   text) << std::endl;
+        RLSU_ON_DEBUG(logfile_  << BaseTabsStr() << Html   ::ColoredStr(Html   ::RED,     "[ASSERT]     ") << Html   ::ColoredFormatedCodePlace(code_place) << Html   ::ColoredStr(Html   ::RED,   text) << std::endl;)
         break;
 
     case LogLevel::EXCEPT_RUNTIME:
