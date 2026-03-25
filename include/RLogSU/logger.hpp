@@ -55,6 +55,7 @@ inline void RLSU_THROW(std::string message, std::source_location loc = std::sour
     #define RLSU_SET_LOGSPACE(path_str)
 #endif
 
+#define RLSU_FORMAT(std_format_, ...)  (fmt::format(std_format_, ##__VA_ARGS__))
 
 #define RLSU_BASETAB_INCREACE RLSU::Log::UnitLogger.BaseTabsNum++
 #define RLSU_BASETAB_DECREACE RLSU::Log::UnitLogger.BaseTabsNum--
