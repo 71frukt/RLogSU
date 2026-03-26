@@ -18,7 +18,7 @@ inline void RLSU_THROW(std::string message, std::source_location loc = std::sour
     throw ExceptT("\n[runtime err][" + code_place + "] " + message);
 }
 
-#define RLSU_LOG_RUNTIME_ERR(exception) do {RLSU::Log::UnitLogger.Log(__FILE__, __LINE__, __func__, RLSU::Log::Logger::EXCEPT_RUNTIME, e.what());} while(0)
+#define RLSU_LOG_RUNTIME_ERR(exception) do {RLSU::Log::UnitLogger.Log(__FILE__, __LINE__, __func__, RLSU::Log::Logger::EXCEPT_RUNTIME, "{}", exception.what()) ;} while(0)
 
 #define     RLSU_WARNING( std_format_, ...) do {RLSU::Log::UnitLogger.Log(__FILE__, __LINE__, __func__, RLSU::Log::Logger::WARNING, std_format_, ##__VA_ARGS__);} while(0)
 #define     RLSU_ERROR(   std_format_, ...) do {RLSU::Log::UnitLogger.Log(__FILE__, __LINE__, __func__, RLSU::Log::Logger::ERROR  , std_format_, ##__VA_ARGS__);} while(0)
@@ -29,7 +29,7 @@ inline void RLSU_THROW(std::string message, std::source_location loc = std::sour
     #define RLSU_LOG(     std_format_, ...) do {RLSU::Log::UnitLogger.Log(__FILE__, __LINE__, __func__, RLSU::Log::Logger::LOG    , std_format_, ##__VA_ARGS__);} while(0)
 
     #define RLSU_ASSERT(condition, std_format_, ...) do {                                                                                              \
-        if (!(condition)) {                                                                                                                              \
+        if (!(condition)) {                                                                                                                            \
             RLSU::Log::UnitLogger.Log(__FILE__, __LINE__, __func__, RLSU::Log::Logger::ASSERT , #condition " failed. " std_format_, ##__VA_ARGS__);    \
             abort();                                                                                                                                   \
         }                                                                                                                                              \
