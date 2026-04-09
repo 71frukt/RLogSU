@@ -28,9 +28,9 @@ inline void RLSU_THROW(std::string message, std::source_location loc = std::sour
     #define RLSU_MESSAGE( std_format_, ...) do {RLSU::Log::UnitLogger.Log(__FILE__, __LINE__, __func__, RLSU::Log::Logger::MESSAGE, std_format_, ##__VA_ARGS__);} while(0)
     #define RLSU_LOG(     std_format_, ...) do {RLSU::Log::UnitLogger.Log(__FILE__, __LINE__, __func__, RLSU::Log::Logger::LOG    , std_format_, ##__VA_ARGS__);} while(0)
 
-    #define RLSU_ASSERT(condition, std_format_, ...) do {                                                                                              \
+    #define RLSU_ASSERT(condition, ...) do {                                                                                              \
         if (!(condition)) {                                                                                                                            \
-            RLSU::Log::UnitLogger.Log(__FILE__, __LINE__, __func__, RLSU::Log::Logger::ASSERT , #condition " failed. " std_format_, ##__VA_ARGS__);    \
+            RLSU::Log::UnitLogger.Log(__FILE__, __LINE__, __func__, RLSU::Log::Logger::ASSERT , #condition " failed. " __VA_OPT__(__VA_ARGS__));    \
             abort();                                                                                                                                   \
         }                                                                                                                                              \
     } while(0)
@@ -50,7 +50,7 @@ inline void RLSU_THROW(std::string message, std::source_location loc = std::sour
     #define RLSU_INFO(    std_format_, ...)
     #define RLSU_MESSAGE( std_format_, ...)
     #define RLSU_LOG(     std_format_, ...)
-    #define RLSU_ASSERT(condition, std_format_, ...)
+    #define RLSU_ASSERT(condition, ...)
     #define RLSU_DUMP(_DumpFunc, ...)
     #define RLSU_SET_LOGSPACE(path_str)
 #endif
