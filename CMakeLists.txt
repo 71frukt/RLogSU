@@ -7,7 +7,25 @@ set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
-find_package(fmt REQUIRED)
+###=========================================== DEPENDENCIES ==========================================
+include(FetchContent)
+
+find_package(fmt QUIET)
+
+if(NOT fmt_FOUND)
+    message(STATUS "fmt not found in system, fetching via FetchContent...")
+    
+    FetchContent_Declare(
+        fmt
+        GIT_REPOSITORY https://github.com/fmtlib/fmt.git
+        GIT_TAG        8.1.1
+    )
+    
+    FetchContent_MakeAvailable(fmt)
+else()
+    message(STATUS "fmt found in system, using system version.")
+endif()
+###=========================================== /DEPENDENCIES =========================================
 
 add_library(${PROJECT_NAME} STATIC)
 
