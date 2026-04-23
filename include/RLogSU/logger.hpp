@@ -3,6 +3,7 @@
 #include <exception>
 #include <source_location>
 #include <string>
+#include <fmt/ranges.h>
 
 #include "../../src/logger_impl.hpp"
 
